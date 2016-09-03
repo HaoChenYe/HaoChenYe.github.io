@@ -1,0 +1,596 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="J2EE 部分：
+1.##  Switch能否用string做参数？
+在 Java 7 之前， switch 只能支持 byte 、 short 、 char 、 int 或者其对应的封装类以及 Enum 类型。在 Java 7 中， String 支持被加上了。
+equals与==的区别：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一些基础的java面试题">
+<meta property="og:url" content="https://stayy.github.io/2016/09/03/一些基础的java面试题/index.html">
+<meta property="og:site_name" content="StayY">
+<meta property="og:description" content="J2EE 部分：
+1.##  Switch能否用string做参数？
+在 Java 7 之前， switch 只能支持 byte 、 short 、 char 、 int 或者其对应的封装类以及 Enum 类型。在 Java 7 中， String 支持被加上了。
+equals与==的区别：">
+<meta property="og:updated_time" content="2016-09-03T06:01:48.127Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一些基础的java面试题">
+<meta name="twitter:description" content="J2EE 部分：
+1.##  Switch能否用string做参数？
+在 Java 7 之前， switch 只能支持 byte 、 short 、 char 、 int 或者其对应的封装类以及 Enum 类型。在 Java 7 中， String 支持被加上了。
+equals与==的区别：">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://stayy.github.io/2016/09/03/一些基础的java面试题/"/>
+
+  <title> 一些基础的java面试题 | StayY </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">StayY</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">个人博客</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                一些基础的java面试题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-03T13:23:02+08:00" content="2016-09-03">
+              2016-09-03
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/03/一些基础的java面试题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/03/一些基础的java面试题/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>J2EE 部分：</p>
+<p>1.##  Switch能否用string做参数？</p>
+<p>在 Java 7 之前， switch 只能支持 byte 、 short 、 char 、 int 或者其对应的封装类以及 Enum 类型。在 Java 7 中， String 支持被加上了。</p>
+<h2 id="equals与-的区别："><a href="#equals与-的区别：" class="headerlink" title="equals与==的区别："></a>equals与==的区别：</h2><a id="more"></a>
+<p>==是判断两个变量或实例是不是指向同一个内存空间 equals是判断两个变量或实例所指向的内存空间的值是不是相同</p>
+<h2 id="Object有哪些公用方法？"><a href="#Object有哪些公用方法？" class="headerlink" title="Object有哪些公用方法？"></a>Object有哪些公用方法？</h2><p>方法equals测试的是两个对象是否相等<br>方法clone进行对象拷贝<br>方法getClass返回和当前对象相关的Class对象<br>方法notify,notifyall,wait都是用来对给定对象进行线程同步的</p>
+<h2 id="实际开发中软引用或者弱引用的使用场景："><a href="#实际开发中软引用或者弱引用的使用场景：" class="headerlink" title="实际开发中软引用或者弱引用的使用场景："></a>实际开发中软引用或者弱引用的使用场景：</h2><p>利用软引用和弱引用解决OOM问题：用一个HashMap来保存图片的路径和相应图片对象关联的软引用之间的映射关系，在内存不足时，JVM会自动回收这些缓存图片对象所占用的空间，从而有效地避免了OOM的问题 通过软可及对象重获方法实现Java对象的高速缓存:比如我们创建了一Employee的类，如果每次需要查询一个雇员的信息。哪怕是几秒中之前刚刚查询过的，都要重新构建一个实例，这是需要消耗很多时间的。我们可以通过软引用和 HashMap 的结合，先是保存引用方面：以软引用的方式对一个Employee对象的实例进行引用并保存该引用到HashMap 上，key 为此雇员的 id，value为这个对象的软引用，另一方面是取出引用，缓存中是否有该Employee实例的软引用，如果有，从软引用中取得。如果没有软引用，或者从软引用中得到的实例是null，重新构建一个实例，并保存对这个新建实例的软引用</p>
+<h2 id="Hashcode的作用，与-equal-有什么区别"><a href="#Hashcode的作用，与-equal-有什么区别" class="headerlink" title="Hashcode的作用，与 equal 有什么区别"></a>Hashcode的作用，与 equal 有什么区别</h2><p>同样用于鉴定2个对象是否相等的，java集合中有 list 和 set 两类，其中 set不允许元素重复实现，那个这个不允许重复实现的方法，如果用 equal 去比较的话，如果存在1000个元素，你 new 一个新的元素出来，需要去调用1000次 equal 去逐个和他们比较是否是同一个对象，这样会大大降低效率。hashcode实际上是返回对象的存储地址，如果这个位置上没有元素，就把元素直接存储在上面，如果这个位置上已经存在元素，这个时候才去调用equal方法与新元素进行比较，相同的话就不存了，散列到其他地址上</p>
+<h2 id="String、StringBuffer与StringBuilder的区别"><a href="#String、StringBuffer与StringBuilder的区别" class="headerlink" title="String、StringBuffer与StringBuilder的区别"></a>String、StringBuffer与StringBuilder的区别</h2><p>String 类型和 StringBuffer 类型的主要性能区别其实在于 String 是不可变的对象 StringBuffer和StringBuilder底层是 char[]数组实现的 StringBuffer是线程安全的，而StringBuilder是线程不安全的</p>
+<h2 id="Override和Overload的含义去区别"><a href="#Override和Overload的含义去区别" class="headerlink" title="Override和Overload的含义去区别"></a>Override和Overload的含义去区别</h2><p>Overload顾名思义是重新加载，它可以表现类的多态性，可以是函数里面可以有相同的函数名但是参数名、返回值、类型不能相同；或者说可以改变参数、类型、返回值但是函数名字依然不变。 Override顾名思义就是ride(重写)的意思，在子类继承父类的时候子类中可以定义某方法与其父类有相同的名称和参数，当子类在调用这一函数时自动调用子类的方法，而父类相当于被覆盖（重写）了。</p>
+<h2 id="抽象类和接口的区别"><a href="#抽象类和接口的区别" class="headerlink" title="抽象类和接口的区别"></a>抽象类和接口的区别</h2><p>一个类只能继承单个类，但是可以实现多个接口 接口强调特定功能的实现，而抽象类强调所属关系 抽象类中的所有方法并不一定要是抽象的，你可以选择在抽象类中实现一些基本的方法。而接口要求所有的方法都必须是抽象的</p>
+<h2 id="解析XML的几种方式的原理与特点：DOM、SAX、PULL"><a href="#解析XML的几种方式的原理与特点：DOM、SAX、PULL" class="headerlink" title="解析XML的几种方式的原理与特点：DOM、SAX、PULL"></a>解析XML的几种方式的原理与特点：DOM、SAX、PULL</h2><p>DOM：消耗内存：先把xml文档都读到内存中，然后再用DOM API来访问树形结构，并获取数据。这个写起来很简单，但是很消耗内存。要是数据过大，手机不够牛逼，可能手机直接死机<br>SAX：解析效率高，占用内存少，基于事件驱动的：更加简单地说就是对文档进行顺序扫描，当扫描到文档(document)开始与结束、元素(element)开始与结束、文档(document)结束等地方时通知事件处理函数，由事件处理函数做相应动作，然后继续同样的扫描，直至文档结束。<br>SAX：与 SAX 类似，也是基于事件驱动，我们可以调用它的next（）方法，来获取下一个解析事件（就是开始文档，结束文档，开始标签，结束标签），当处于某个元素时可以调用XmlPullParser的getAttributte()方法来获取属性的值，也可调用它的nextText()获取本节点的值。</p>
+<h2 id="wait-和sleep-的区别"><a href="#wait-和sleep-的区别" class="headerlink" title="wait()和sleep()的区别"></a>wait()和sleep()的区别</h2><p>sleep来自Thread类，和wait来自Object类<br>调用sleep()方法的过程中，线程不会释放对象锁。而 调用 wait 方法线程会释放对象锁<br>sleep睡眠后不出让系统资源，wait让出系统资源其他线程可以占用CPU<br>sleep(milliseconds)需要指定一个睡眠时间，时间一到会自动唤醒</p>
+<h2 id="JAVA多态的实现原理"><a href="#JAVA多态的实现原理" class="headerlink" title="JAVA多态的实现原理"></a>JAVA多态的实现原理</h2><p>抽象的来讲，多态的意思就是同一消息可以根据发送对象的不同而采用多种不同的行为方式。（发送消息就是函数调用） 实现的原理是动态绑定，程序调用的方法在运行期才动态绑定，追溯源码可以发现，JVM 通过参数的自动转型来找到合适的办法。</p>
+<h2 id="JAVA-垃圾回收与内存分配策略"><a href="#JAVA-垃圾回收与内存分配策略" class="headerlink" title="JAVA 垃圾回收与内存分配策略"></a>JAVA 垃圾回收与内存分配策略</h2><p>14.1 垃圾回收是什么？</p>
+<p>就是释放那些不再持有引用的对象的内存<br>14.2怎么判断一个对象是否需要收集？</p>
+<p>引用计数（最简单古老的方法）：指将资源（可以是对象、内存或磁盘空间等等）的被引用次数保存起来，当被引用次数变为零时就将其释放的过程<br>对象引用遍历（现在大多数 jvm 使用的方法）：对象引用遍历从一组对象开始，沿着整个对象图上的每条链接，递归确定可到达（reachable）的对象。如果某对象不能从这些根对象的一个（至少一个）到达，则将它作为垃圾收集<br>引用计数缺陷：引用计数无法解决循环引用问题：假设对象A，B都已经被实例化，让A=B,B=A,除此之外这两个对象再无任何引用，此时计数器的值就永远不可能为0，但是引用计数器无法通知gc回收他们<br>14.3 Java的四种引用的区别</p>
+<p>强引用：如果一个对象具有强引用，它就不会被垃圾回收器回收。即使当前内存空间不足，JVM 也不会回收它，而是抛出 OutOfMemoryError 错误，使程序异常终止。如果想中断强引用和某个对象之间的关联，可以显式地将引用赋值为null，这样一来的话，JVM在合适的时间就会回收该对象<br>软引用：在使用软引用时，如果内存的空间足够，软引用就能继续被使用，而不会被垃圾回收器回收，只有在内存不足时，软引用才会被垃圾回收器回收。<br>弱引用：具有弱引用的对象拥有的生命周期更短暂。因为当 JVM 进行垃圾回收，一旦发现弱引用对象，无论当前内存空间是否充足，都会将弱引用回收。不过由于垃圾回收器是一个优先级较低的线程，所以并不一定能迅速发现弱引用对象<br>虚引用：顾名思义，就是形同虚设，如果一个对象仅持有虚引用，那么它相当于没有引用，在任何时候都可能被垃圾回收器回收。<br>14.4 介绍垃圾回收机制</p>
+<p>标记回收法：遍历对象图并且记录可到达的对象，以便删除不可到达的对象，一般使用单线程工作并且可能产生内存碎片<br>标记-压缩回收法：前期与第一种方法相同，只是多了一步，将所有的存活对象压缩到内存的一端，这样内存碎片就可以合成一大块可再利用的内存区域，提高了内存利用率<br>复制回收法：把现有内存空间分成两部分，gc运行时，它把可到达对象复制到另一半空间，再清空正在使用的空间的全部对象。这种方法适用于短生存期的对象，持续复制长生存期的对象则导致效率降低。<br>分代回收发：把内存空间分为两个或者多个域，如年轻代和老年代，年轻代的特点是对象会很快被回收，因此在年轻代使用效率比较高的算法。当一个对象经过几次回收后依然存活，对象就会被放入称为老年的内存空间，老年代则采取标记-压缩算法<br>14.5 JAVA 中堆和栈的区别</p>
+<p>基本数据类型比变量和对象的引用都是在栈分配的<br>堆内存用来存放由new创建的对象和数组<br>类变量（static修饰的变量），程序在一加载的时候就在堆中为类变量分配内存，堆中的内存地址存放在栈中<br>实例变量：当你使用java关键字new的时候，系统在堆中开辟并不一定是连续的空间分配给变量，是根据零散的堆内存地址，通过哈希算法换算为一长串数字以表征这个变量在堆中的”物理位置”,实例变量的生命周期–当实例变量的引用丢失后，将被GC（垃圾回收器）列入可回收“名单”中，但并不是马上就释放堆中内存<br>局部变量: 由声明在某方法，或某代码段里（比如for循环），执行到它的时候在栈中开辟内存，当局部变量一但脱离作用域，内存立即释放</p>
+<h2 id="Java-集合系列问题"><a href="#Java-集合系列问题" class="headerlink" title="Java 集合系列问题"></a>Java 集合系列问题</h2><p>15.1 ArrayList、LinkedList、Vector的区别</p>
+<p>ArrayList 和Vector底层是采用数组方式存储数据，Vector由于使用了synchronized方法（线程安全）所以性能上比ArrayList要差<br>LinkedList使用双向链表实现存储，随机存取比较慢<br>HashMap的底层源码实现：当我们往HashMap中put元素的时候，先根据key的hashCode重新计算hash值，根据hash值得到这个元素在数组中的位置（即下标），如果数组该位置上已经存放有其他元素了，那么在这个位置上的元素将以链表的形式存放，新加入的放在链头，最先加入的放在链尾。如果数组该位置上没有元素，就直接将该元素放到此数组中的该位置上。<br>Fail-Fast机制:在使用迭代器的过程中有其他线程修改了map，那么将抛出ConcurrentModificationException，这就是所谓fail-fast机制。这一机制在源码中的实现是通过modCount域，modCount顾名思义就是修改次数，对HashMap内容的修改都将增加这个值，那么在迭代器初始化过程中会将这个值赋给迭代器的expectedModCount。在迭代过程中，判断modCount跟expectedModCount是否相等，如果不相等就表示已经有其他线程修改了Map<br>15.2 HashMap和 HashTable 的区别</p>
+<p>HashTable比较老，是基于Dictionary 类实现的，HashTable 则是基于 Map接口实现的 HashTable 是线程安全的， HashMap 则是线程不安全的 HashMap可以让你将空值作为一个表的条目的key或value</p>
+<h2 id="什么是反射，在哪里需要用到？"><a href="#什么是反射，在哪里需要用到？" class="headerlink" title="什么是反射，在哪里需要用到？"></a>什么是反射，在哪里需要用到？</h2><h2 id="什么是线程池，线程池的作用是什么"><a href="#什么是线程池，线程池的作用是什么" class="headerlink" title="什么是线程池，线程池的作用是什么"></a>什么是线程池，线程池的作用是什么</h2><p>答：线程池的基本思想还是一种对象池的思想，开辟一块内存空间，里面存放了众多(未死亡)的线程，池中线程执行调度由池管理器来处理。当有线程任务时，从池中取一个，执行完成后线程对象归池，这样可以避免反复创建线程对象所带来的性能开销，节省了系统的资源。就好比原来去食堂打饭是每个人看谁抢的赢，谁先抢到谁先吃，有了线程吃之后，就是排好队形，今天我跟你关系好，你先来吃饭。比如：一个应用要和网络打交道，有很多步骤需要访问网络，为了不阻塞主线程，每个步骤都创建个线程，在线程中和网络交互，用线程池就变的简单，线程池是对线程的一种封装，让线程用起来更加简便，只需要创一个线程池，把这些步骤像任务一样放进线程池，在程序销毁时只要调用线程池的销毁函数即可。<br>单个线程的弊端：a. 每次new Thread新建对象性能差b. 线程缺乏统一管理，可能无限制新建线程，相互之间竞争，及可能占用过多系统资源导致死机或者OOM,c. 缺乏更多功能，如定时执行、定期执行、线程中断。<br>java提供的四种线程池的好处在于：a. 重用存在的线程，减少对象创建、消亡的开销，性能佳。b. 可有效控制最大并发线程数，提高系统资源的使用率，同时避免过多资源竞争，避免堵塞。c. 提供定时执行、定期执行、单线程、并发数控制等功能。</p>
+<h2 id="Java-线程池"><a href="#Java-线程池" class="headerlink" title="Java 线程池"></a>Java 线程池</h2><p>Java通过Executors提供四种线程池，分别为：<br>newCachedThreadPool创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。<br>newFixedThreadPool 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。<br>newScheduledThreadPool 创建一个定长线程池，支持定时及周期性任务执行。<br>newSingleThreadExecutor 创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。<br>(1). newCachedThreadPool<br>创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。线程池为无限大，当执行第二个任务时第一个任务已经完成，会复用执行第一个任务的线程，而不用每次新建线程。<br>(2). newFixedThreadPool<br>创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。<br>(3) newScheduledThreadPool<br>创建一个定长线程池，支持定时及周期性任务执行。ScheduledExecutorService比Timer更安全，功能更强大<br>(4)、newSingleThreadExecutor<br>创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+        </div>
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/09/03/一些基础的java面试题/"
+           data-title="一些基础的java面试题" data-url="https://stayy.github.io/2016/09/03/一些基础的java面试题/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/20160824113244.png"
+               alt="StayY" />
+          <p class="site-author-name" itemprop="name">StayY</p>
+          <p class="site-description motion-element" itemprop="description">java,专注网页后端技术。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#equals与-的区别："><span class="nav-number">1.</span> <span class="nav-text">equals与==的区别：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Object有哪些公用方法？"><span class="nav-number">2.</span> <span class="nav-text">Object有哪些公用方法？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实际开发中软引用或者弱引用的使用场景："><span class="nav-number">3.</span> <span class="nav-text">实际开发中软引用或者弱引用的使用场景：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hashcode的作用，与-equal-有什么区别"><span class="nav-number">4.</span> <span class="nav-text">Hashcode的作用，与 equal 有什么区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String、StringBuffer与StringBuilder的区别"><span class="nav-number">5.</span> <span class="nav-text">String、StringBuffer与StringBuilder的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Override和Overload的含义去区别"><span class="nav-number">6.</span> <span class="nav-text">Override和Overload的含义去区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象类和接口的区别"><span class="nav-number">7.</span> <span class="nav-text">抽象类和接口的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析XML的几种方式的原理与特点：DOM、SAX、PULL"><span class="nav-number">8.</span> <span class="nav-text">解析XML的几种方式的原理与特点：DOM、SAX、PULL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wait-和sleep-的区别"><span class="nav-number">9.</span> <span class="nav-text">wait()和sleep()的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA多态的实现原理"><span class="nav-number">10.</span> <span class="nav-text">JAVA多态的实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA-垃圾回收与内存分配策略"><span class="nav-number">11.</span> <span class="nav-text">JAVA 垃圾回收与内存分配策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-集合系列问题"><span class="nav-number">12.</span> <span class="nav-text">Java 集合系列问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是反射，在哪里需要用到？"><span class="nav-number">13.</span> <span class="nav-text">什么是反射，在哪里需要用到？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是线程池，线程池的作用是什么"><span class="nav-number">14.</span> <span class="nav-text">什么是线程池，线程池的作用是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-线程池"><span class="nav-number">15.</span> <span class="nav-text">Java 线程池</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">StayY</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"http://StayY.duoshuo.com"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
