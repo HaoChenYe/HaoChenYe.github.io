@@ -1,0 +1,593 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java,数组,基础," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="一丶什么是数组在我印象中的数组一般都是 int[] a = new int[4]; 通过new关键字创建并组装他们，然后通过整数索引值来访问其中的元素。后来我又明白 数组是一个特殊的对象，在《java编程思想》中说 “数组是一种效率最高的存储和随机访问对象引用序列的方式。数组就是一个简单的线性序列，这使得元素访问非常快速。但是这种速度所付出的代价是数组对象的大小被固定，并且在其生命周期中不可改变”">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM处理java数组的方法">
+<meta property="og:url" content="https://stayy.github.io/2016/09/04/JVM处理java数组的方法/index.html">
+<meta property="og:site_name" content="StayY">
+<meta property="og:description" content="一丶什么是数组在我印象中的数组一般都是 int[] a = new int[4]; 通过new关键字创建并组装他们，然后通过整数索引值来访问其中的元素。后来我又明白 数组是一个特殊的对象，在《java编程思想》中说 “数组是一种效率最高的存储和随机访问对象引用序列的方式。数组就是一个简单的线性序列，这使得元素访问非常快速。但是这种速度所付出的代价是数组对象的大小被固定，并且在其生命周期中不可改变”">
+<meta property="og:updated_time" content="2016-09-04T06:32:36.652Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM处理java数组的方法">
+<meta name="twitter:description" content="一丶什么是数组在我印象中的数组一般都是 int[] a = new int[4]; 通过new关键字创建并组装他们，然后通过整数索引值来访问其中的元素。后来我又明白 数组是一个特殊的对象，在《java编程思想》中说 “数组是一种效率最高的存储和随机访问对象引用序列的方式。数组就是一个简单的线性序列，这使得元素访问非常快速。但是这种速度所付出的代价是数组对象的大小被固定，并且在其生命周期中不可改变”">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://stayy.github.io/2016/09/04/JVM处理java数组的方法/"/>
+
+  <title> JVM处理java数组的方法 | StayY </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">StayY</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">个人博客</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JVM处理java数组的方法
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-04T14:32:02+08:00" content="2016-09-04">
+              2016-09-04
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/04/JVM处理java数组的方法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/04/JVM处理java数组的方法/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一丶什么是数组"><a href="#一丶什么是数组" class="headerlink" title="一丶什么是数组"></a>一丶什么是数组</h1><p>在我印象中的数组一般都是 int[] a = new int[4]; 通过new关键字创建并组装他们，然后通过整数索引值来访问其中的元素。<br>后来我又明白 数组是一个特殊的对象，在《java编程思想》中说 “数组是一种效率最高的存储和随机访问对象引用序列的方式。数组就是一个简单的线性序列，这使得元素访问非常快速。但是这种速度所付出的代价是数组对象的大小被固定，并且在其生命周期中不可改变”<br><a id="more"></a></p>
+<h1 id="二丶数组对象的类是什么？"><a href="#二丶数组对象的类是什么？" class="headerlink" title="二丶数组对象的类是什么？"></a>二丶数组对象的类是什么？</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args) &#123;</div><div class="line">		int a[][] = new int[10][10];</div><div class="line">		Class clazz = a.getClass();</div><div class="line">		System.out.println(clazz.getName());</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>在jdk1.7中输出的是 [I</p>
+<p>这个输出不属于任何包,而且名称还不是合法的标识<br>(‘[‘的数目代表了数组的维度，后面的是数组中存放的元素类型)</p>
+<h1 id="三丶数组的类有哪些成员呢？"><a href="#三丶数组的类有哪些成员呢？" class="headerlink" title="三丶数组的类有哪些成员呢？"></a>三丶数组的类有哪些成员呢？</h1><p>既然数组是个类 类中就可能存在成员方法或者成员变量等等一系列类中应该有的东西。<br>这一切我们都可以用java的反射性质一探究竟。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args) &#123;</div><div class="line">		int[] a = new int[3];</div><div class="line">		Class clazz = a.getClass();</div><div class="line">		System.out.println(clazz.getName());</div><div class="line">		System.out.println(clazz.getDeclaredFields().length);  //类中字段的个数</div><div class="line">		System.out.println(clazz.getDeclaredMethods().length);  //类中方法的个数</div><div class="line">		System.out.println(clazz.getDeclaredConstructors().length);  //类中构造方法的个数</div><div class="line">		System.out.println(clazz.getDeclaredAnnotations().length);   //类中的注解</div><div class="line">		System.out.println(clazz.getDeclaredClasses().length);  </div><div class="line">		System.out.println(clazz.getSuperclass());</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>输出:[I<br>0<br>0<br>0<br>0<br>0<br>class java.lang.Object</p>
+<p>[I 就是一个空类,连length这个成员变量都没有，但是你在使用的过程能用length这个成员变量呢。</p>
+<h1 id="四丶数组的类在哪里声明的？"><a href="#四丶数组的类在哪里声明的？" class="headerlink" title="四丶数组的类在哪里声明的？"></a>四丶数组的类在哪里声明的？</h1><p>让我们先看看字节码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args) &#123; </div><div class="line">int a[] = new int[2]; int i = a.length;   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">iconst_2                   //将int型常量2压入操作数栈  </div><div class="line">newarray 10 (int)          //将2弹出操作数栈，作为长度，创建一个元素类型为int, 维度为1的数组，并将数组的引用压入操作数栈  </div><div class="line">astore_1                 //将数组的引用从操作数栈中弹出，保存在索引为1的局部变量(即a)中  </div><div class="line">aload_1                    //将索引为1的局部变量(即a)压入操作数栈  </div><div class="line">arraylength               //从操作数栈弹出数组引用(即a)，并获取其长度(JVM负责实现如何获取)，并将长度压入操作数栈  </div><div class="line">istore_2                 //将数组长度从操作数栈弹出，保存在索引为2的局部变量(即i)中  </div><div class="line">return                  //main方法返回</div></pre></td></tr></table></figure>
+<p>  通过这段字节码，根本就没有看见length这个成员变量，获取数组长度的只能是一条arraylength实现，是由jvm底层实现，和我们没有什么关系。编译器对Array.length()这样的语法做了特殊处理，直接编译成了arraylength指令。另外，JVM创建数组类，应该就是由newarray这条指令触发的了。</p>
+<p>参考:<a href="http://developer.51cto.com/art/201001/176671.htm" target="_blank" rel="external">http://developer.51cto.com/art/201001/176671.htm</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+            <a href="/tags/数组/" rel="tag">#数组</a>
+          
+            <a href="/tags/基础/" rel="tag">#基础</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/03/一些基础的java面试题/" rel="next" title="一些基础的java面试题">
+                <i class="fa fa-chevron-left"></i> 一些基础的java面试题
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/09/04/JVM处理java数组的方法/"
+           data-title="JVM处理java数组的方法" data-url="https://stayy.github.io/2016/09/04/JVM处理java数组的方法/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/20160824113244.png"
+               alt="StayY" />
+          <p class="site-author-name" itemprop="name">StayY</p>
+          <p class="site-description motion-element" itemprop="description">java,专注网页后端技术。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一丶什么是数组"><span class="nav-number">1.</span> <span class="nav-text">一丶什么是数组</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二丶数组对象的类是什么？"><span class="nav-number">2.</span> <span class="nav-text">二丶数组对象的类是什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三丶数组的类有哪些成员呢？"><span class="nav-number">3.</span> <span class="nav-text">三丶数组的类有哪些成员呢？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四丶数组的类在哪里声明的？"><span class="nav-number">4.</span> <span class="nav-text">四丶数组的类在哪里声明的？</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">StayY</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"stayy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
