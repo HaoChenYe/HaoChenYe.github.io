@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="java基础," />
 
 
 
@@ -84,15 +84,19 @@
 
 
 
-<meta name="description" content="java,专注网页后端技术。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="StayY">
-<meta property="og:url" content="https://stayy.github.io/index.html">
+<meta name="description" content="Map接口源码分析初探Map接口定义
+123456public interface Map&amp;lt;K,V&amp;gt;&amp;#123;    ...    interface Entry&amp;lt;K,V&amp;gt;&amp;#123;    &amp;#125;    ...&amp;#125;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Map详解(一)">
+<meta property="og:url" content="https://stayy.github.io/2016/09/07/Map详解(一)/index.html">
 <meta property="og:site_name" content="StayY">
-<meta property="og:description" content="java,专注网页后端技术。">
+<meta property="og:description" content="Map接口源码分析初探Map接口定义
+123456public interface Map&amp;lt;K,V&amp;gt;&amp;#123;    ...    interface Entry&amp;lt;K,V&amp;gt;&amp;#123;    &amp;#125;    ...&amp;#125;">
+<meta property="og:updated_time" content="2016-09-07T11:42:42.206Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="StayY">
-<meta name="twitter:description" content="java,专注网页后端技术。">
+<meta name="twitter:title" content="Map详解(一)">
+<meta name="twitter:description" content="Map接口源码分析初探Map接口定义
+123456public interface Map&amp;lt;K,V&amp;gt;&amp;#123;    ...    interface Entry&amp;lt;K,V&amp;gt;&amp;#123;    &amp;#125;    ...&amp;#125;">
 
 
 
@@ -113,9 +117,9 @@
 
 
 
-  <link rel="canonical" href="https://stayy.github.io/"/>
+  <link rel="canonical" href="https://stayy.github.io/2016/09/07/Map详解(一)/"/>
 
-  <title> StayY </title>
+  <title> Map详解(一) | StayY </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -145,9 +149,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -214,9 +216,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -236,10 +238,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/09/07/Map详解(一)/" itemprop="url">
-                  Map详解(一)
-                </a>
+                Map详解(一)
               
             
           </h1>
@@ -286,251 +285,148 @@
       
 
       
-        
-          <h2 id="Map接口源码分析初探"><a href="#Map接口源码分析初探" class="headerlink" title="Map接口源码分析初探"></a>Map接口源码分析初探</h2><p>Map接口定义</p>
+        <h2 id="Map接口源码分析初探"><a href="#Map接口源码分析初探" class="headerlink" title="Map接口源码分析初探"></a>Map接口源码分析初探</h2><p>Map接口定义</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public interface Map&lt;K,V&gt;&#123;</div><div class="line">    ...</div><div class="line">    interface Entry&lt;K,V&gt;&#123;</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/09/07/Map详解(一)/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+<a id="more"></a>
+<p>除了内部接口Entry外的方法</p>
+<table>
+<thead>
+<tr>
+<th>返回值</th>
+<th>接口名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>int</td>
+<td>size()</td>
+<td>Map的大小</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>isEmpty()</td>
+<td>判断是否为空</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>containsKey(Object key)</td>
+<td>是否包含key值</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>containsValue(Object value)</td>
+<td>是否包含value值</td>
+</tr>
+<tr>
+<td>V</td>
+<td>get(Obejct key)</td>
+<td>通过key得到值</td>
+</tr>
+<tr>
+<td>V</td>
+<td>put(K key,V value)</td>
+<td>把key和value存入map</td>
+</tr>
+<tr>
+<td>V</td>
+<td>remove(Object key)</td>
+<td>根据key移除</td>
+</tr>
+<tr>
+<td>void</td>
+<td>putAll(Map&lt;? extends K,? extends V&gt; m)</td>
+<td>复制传入的map</td>
+</tr>
+<tr>
+<td>void</td>
+<td>clear()</td>
+<td>清空map</td>
+</tr>
+<tr>
+<td>Set<k></k></td>
+<td>KeySet()</td>
+<td>返回此map中包含key的set视图</td>
+</tr>
+<tr>
+<td>Collection<v></v></td>
+<td>values()</td>
+<td>返回此映射中包含的值的collection视图</td>
+</tr>
+<tr>
+<td>Set<map,entry<k,v>&gt;</map,entry<k,v></td>
+<td>entrySet()</td>
+<td>返回此映射中包含的映射关系的 Set 视图</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>equals(Object o)</td>
+<td>比较指定的对象与此映射是否相等。如果给定的对象也是一个映射，并且这两个映射表示相同的映射关系，则返回 true</td>
+</tr>
+<tr>
+<td>int</td>
+<td>hashCode()</td>
+<td>得到hash值</td>
+</tr>
+</tbody>
+</table>
+<p>KeySet():由于Map结合的key不能重复，key之间无顺序，所以Map集合中的所有key就可以组成一个Set集合</p>
+<p>内部接口Entry方法<br>返回值 | 接口名 | 描述<br>—|—|—<br>K | getKey() | 返回与此项对应的键<br>V | getValue() | 返回与此项对应的值<br>V | setValue(V value) | 改变key对应的值<br>boolean | equals(Obejct o) | 比较是否相等<br>int | hashCode() |  得到hash值</p>
+<p>实现这个Map接口的时候 都会在其内部写一个静态类用来实现此内部接口</p>
+
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/04/JVM处理java数组的方法/" itemprop="url">
-                  JVM处理java数组的方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-04T14:32:02+08:00" content="2016-09-04">
-              2016-09-04
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/09/04/JVM处理java数组的方法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/04/JVM处理java数组的方法/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
+            <a href="/tags/java基础/" rel="tag">#java基础</a>
           
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h1 id="一丶什么是数组"><a href="#一丶什么是数组" class="headerlink" title="一丶什么是数组"></a>一丶什么是数组</h1><p>在我印象中的数组一般都是 int[] a = new int[4]; 通过new关键字创建并组装他们，然后通过整数索引值来访问其中的元素。<br>后来我又明白 数组是一个特殊的对象，在《java编程思想》中说 “数组是一种效率最高的存储和随机访问对象引用序列的方式。数组就是一个简单的线性序列，这使得元素访问非常快速。但是这种速度所付出的代价是数组对象的大小被固定，并且在其生命周期中不可改变”<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/09/04/JVM处理java数组的方法/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/04/JVM处理java数组的方法/" rel="next" title="JVM处理java数组的方法">
+                <i class="fa fa-chevron-left"></i> JVM处理java数组的方法
+              </a>
+            
           </div>
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+          <div class="post-nav-prev post-nav-item">
             
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/03/一些基础的java面试题/" itemprop="url">
-                  一些基础的java面试题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-03T13:23:02+08:00" content="2016-09-03">
-              2016-09-03
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/09/03/一些基础的java面试题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/03/一些基础的java面试题/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <p>J2EE 部分：</p>
-<h2 id="Switch能否用string做参数？"><a href="#Switch能否用string做参数？" class="headerlink" title="Switch能否用string做参数？"></a>Switch能否用string做参数？</h2><p>在 Java 7 之前， switch 只能支持 byte 、 short 、 char 、 int 或者其对应的封装类以及 Enum 类型。在 Java 7 中， String 支持被加上了。</p>
-<h2 id="equals与-的区别："><a href="#equals与-的区别：" class="headerlink" title="equals与==的区别："></a>equals与==的区别：</h2>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/09/03/一些基础的java面试题/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -538,6 +434,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/09/07/Map详解(一)/"
+           data-title="Map详解(一)" data-url="https://stayy.github.io/2016/09/07/Map详解(一)/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -557,8 +461,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/20160824113244.png"
@@ -601,6 +514,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Map接口源码分析初探"><span class="nav-number">1.</span> <span class="nav-text">Map接口源码分析初探</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -697,6 +621,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
