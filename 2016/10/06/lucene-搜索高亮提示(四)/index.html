@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="java基础," />
+  <meta name="keywords" content="lucene," />
 
 
 
@@ -84,19 +84,18 @@
 
 
 
-<meta name="description" content="Map接口源码分析初探Map接口定义
-123456public interface Map&amp;lt;K,V&amp;gt;&amp;#123;    ...    interface Entry&amp;lt;K,V&amp;gt;&amp;#123;    &amp;#125;    ...&amp;#125;">
+<meta name="description" content="hightlighter介绍我们在查询的时候，希望对我们的搜索结果与搜索内容相近的地方进行着重显示，效果如下:">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Map详解(一)">
-<meta property="og:url" content="https://stayy.github.io/2016/09/07/Map详解(一)/index.html">
+<meta property="og:title" content="lucene-搜索高亮提示(四)">
+<meta property="og:url" content="https://stayy.github.io/2016/10/06/lucene-搜索高亮提示(四)/index.html">
 <meta property="og:site_name" content="StayY">
-<meta property="og:description" content="Map接口源码分析初探Map接口定义
-123456public interface Map&amp;lt;K,V&amp;gt;&amp;#123;    ...    interface Entry&amp;lt;K,V&amp;gt;&amp;#123;    &amp;#125;    ...&amp;#125;">
-<meta property="og:updated_time" content="2016-09-07T11:42:42.206Z">
+<meta property="og:description" content="hightlighter介绍我们在查询的时候，希望对我们的搜索结果与搜索内容相近的地方进行着重显示，效果如下:">
+<meta property="og:image" content="http://7xvmfe.com1.z0.glb.clouddn.com/qwert20161004154141.png">
+<meta property="og:updated_time" content="2016-10-06T09:21:57.365Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Map详解(一)">
-<meta name="twitter:description" content="Map接口源码分析初探Map接口定义
-123456public interface Map&amp;lt;K,V&amp;gt;&amp;#123;    ...    interface Entry&amp;lt;K,V&amp;gt;&amp;#123;    &amp;#125;    ...&amp;#125;">
+<meta name="twitter:title" content="lucene-搜索高亮提示(四)">
+<meta name="twitter:description" content="hightlighter介绍我们在查询的时候，希望对我们的搜索结果与搜索内容相近的地方进行着重显示，效果如下:">
+<meta name="twitter:image" content="http://7xvmfe.com1.z0.glb.clouddn.com/qwert20161004154141.png">
 
 
 
@@ -117,9 +116,9 @@
 
 
 
-  <link rel="canonical" href="https://stayy.github.io/2016/09/07/Map详解(一)/"/>
+  <link rel="canonical" href="https://stayy.github.io/2016/10/06/lucene-搜索高亮提示(四)/"/>
 
-  <title> Map详解(一) | StayY </title>
+  <title> lucene-搜索高亮提示(四) | StayY </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -248,7 +247,7 @@
             
             
               
-                Map详解(一)
+                lucene-搜索高亮提示(四)
               
             
           </h1>
@@ -260,8 +259,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-07T19:42:02+08:00" content="2016-09-07">
-              2016-09-07
+            <time itemprop="dateCreated" datetime="2016-10-06T16:59:02+08:00" content="2016-10-06">
+              2016-10-06
             </time>
           </span>
 
@@ -271,8 +270,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/09/07/Map详解(一)/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/07/Map详解(一)/" itemprop="commentsCount"></span>
+                <a href="/2016/10/06/lucene-搜索高亮提示(四)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/06/lucene-搜索高亮提示(四)/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -282,7 +281,7 @@
 
           
           
-             <span id="/2016/09/07/Map详解(一)/" class="leancloud_visitors" data-flag-title="Map详解(一)">
+             <span id="/2016/10/06/lucene-搜索高亮提示(四)/" class="leancloud_visitors" data-flag-title="lucene-搜索高亮提示(四)">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -304,95 +303,12 @@
       
 
       
-        <h2 id="Map接口源码分析初探"><a href="#Map接口源码分析初探" class="headerlink" title="Map接口源码分析初探"></a>Map接口源码分析初探</h2><p>Map接口定义</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public interface Map&lt;K,V&gt;&#123;</div><div class="line">    ...</div><div class="line">    interface Entry&lt;K,V&gt;&#123;</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>除了内部接口Entry外的方法</p>
-<table>
-<thead>
-<tr>
-<th>返回值</th>
-<th>接口名</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>int</td>
-<td>size()</td>
-<td>Map的大小</td>
-</tr>
-<tr>
-<td>boolean</td>
-<td>isEmpty()</td>
-<td>判断是否为空</td>
-</tr>
-<tr>
-<td>boolean</td>
-<td>containsKey(Object key)</td>
-<td>是否包含key值</td>
-</tr>
-<tr>
-<td>boolean</td>
-<td>containsValue(Object value)</td>
-<td>是否包含value值</td>
-</tr>
-<tr>
-<td>V</td>
-<td>get(Obejct key)</td>
-<td>通过key得到值</td>
-</tr>
-<tr>
-<td>V</td>
-<td>put(K key,V value)</td>
-<td>把key和value存入map</td>
-</tr>
-<tr>
-<td>V</td>
-<td>remove(Object key)</td>
-<td>根据key移除</td>
-</tr>
-<tr>
-<td>void</td>
-<td>putAll(Map&lt;? extends K,? extends V&gt; m)</td>
-<td>复制传入的map</td>
-</tr>
-<tr>
-<td>void</td>
-<td>clear()</td>
-<td>清空map</td>
-</tr>
-<tr>
-<td>Set<k></k></td>
-<td>KeySet()</td>
-<td>返回此map中包含key的set视图</td>
-</tr>
-<tr>
-<td>Collection<v></v></td>
-<td>values()</td>
-<td>返回此映射中包含的值的collection视图</td>
-</tr>
-<tr>
-<td>Set<map,entry<k,v>&gt;</map,entry<k,v></td>
-<td>entrySet()</td>
-<td>返回此映射中包含的映射关系的 Set 视图</td>
-</tr>
-<tr>
-<td>boolean</td>
-<td>equals(Object o)</td>
-<td>比较指定的对象与此映射是否相等。如果给定的对象也是一个映射，并且这两个映射表示相同的映射关系，则返回 true</td>
-</tr>
-<tr>
-<td>int</td>
-<td>hashCode()</td>
-<td>得到hash值</td>
-</tr>
-</tbody>
-</table>
-<p>KeySet():由于Map结合的key不能重复，key之间无顺序，所以Map集合中的所有key就可以组成一个Set集合</p>
-<p>内部接口Entry方法<br>返回值 | 接口名 | 描述<br>—|—|—<br>K | getKey() | 返回与此项对应的键<br>V | getValue() | 返回与此项对应的值<br>V | setValue(V value) | 改变key对应的值<br>boolean | equals(Obejct o) | 比较是否相等<br>int | hashCode() |  得到hash值</p>
-<p>实现这个Map接口的时候 都会在其内部写一个静态类用来实现此内部接口</p>
-
+        <h2 id="hightlighter介绍"><a href="#hightlighter介绍" class="headerlink" title="hightlighter介绍"></a>hightlighter介绍</h2><p>我们在查询的时候，希望对我们的搜索结果与搜索内容相近的地方进行着重显示，效果如下:<br> <a id="more"></a><br><img src="http://7xvmfe.com1.z0.glb.clouddn.com/qwert20161004154141.png" alt="image"></p>
+<p>这样做的好处:1.视觉上让人便于查找有搜索对应的文本块。2.界面展示更友好</p>
+<p>lucene提供了highlighter插件来体现类似的效果</p>
+<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">package net.begincode.lucene.test;</div><div class="line"></div><div class="line">import java.io.StringReader;</div><div class="line">import java.nio.file.Paths;</div><div class="line"></div><div class="line">import org.apache.lucene.analysis.TokenStream;</div><div class="line">import org.apache.lucene.document.Document;</div><div class="line">import org.apache.lucene.index.DirectoryReader;</div><div class="line">import org.apache.lucene.index.IndexWriter;</div><div class="line">import org.apache.lucene.index.IndexWriterConfig;</div><div class="line">import org.apache.lucene.queryparser.classic.QueryParser;</div><div class="line">import org.apache.lucene.search.IndexSearcher;</div><div class="line">import org.apache.lucene.search.Query;</div><div class="line">import org.apache.lucene.search.ScoreDoc;</div><div class="line">import org.apache.lucene.search.TopDocs;</div><div class="line">import org.apache.lucene.search.highlight.Fragmenter;</div><div class="line">import org.apache.lucene.search.highlight.Highlighter;</div><div class="line">import org.apache.lucene.search.highlight.QueryScorer;</div><div class="line">import org.apache.lucene.search.highlight.SimpleFragmenter;</div><div class="line">import org.apache.lucene.search.highlight.SimpleHTMLFormatter;</div><div class="line">import org.apache.lucene.search.highlight.SimpleSpanFragmenter;</div><div class="line">import org.apache.lucene.store.Directory;</div><div class="line">import org.apache.lucene.store.FSDirectory;</div><div class="line"></div><div class="line">import net.begincode.lucene.analyzer.MyIkAnalyzer;</div><div class="line"></div><div class="line">public class LuceneDemo3 &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) throws Exception &#123;</div><div class="line">		MyIkAnalyzer ik = new MyIkAnalyzer();</div><div class="line">		Directory directory = FSDirectory.open(Paths.get(&quot;d:/begincodeIndex/test&quot;));</div><div class="line">		IndexWriterConfig config = new IndexWriterConfig(ik);</div><div class="line">		IndexWriter iwriter = new IndexWriter(directory, config);</div><div class="line">		// 读取索引</div><div class="line">		DirectoryReader ireader = DirectoryReader.open(directory);</div><div class="line">		// 创建索引检索对象 统一利用IndexSearcher来进行</div><div class="line">		IndexSearcher searcher = new IndexSearcher(ireader);</div><div class="line">		// 创建Query</div><div class="line">		QueryParser parser = new QueryParser(&quot;title&quot;, ik);</div><div class="line">		Query query = parser.parse(&quot;mysql&quot;);</div><div class="line">		TopDocs hits = searcher.search(query, 100);</div><div class="line">		QueryScorer scorer = new QueryScorer(query);// 查询得分</div><div class="line">		SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter(&quot;&lt;b&gt;&lt;font color=&apos;red&apos;&gt;&quot;, &quot;&lt;/font&gt;&lt;/b&gt;&quot;);// 对查询的数据格式化；无参构造器的默认是将关键字加粗</div><div class="line">		Highlighter highlighter = new Highlighter(simpleHTMLFormatter, scorer);// 根据得分和格式化</div><div class="line">		highlighter.setTextFragmenter(new SimpleFragmenter(20));// 设置每次返回的字符数</div><div class="line">		for (int i = 0; i &lt; hits.scoreDocs.length; i++) &#123;</div><div class="line">			Document doc = searcher.doc(hits.scoreDocs[i].doc);</div><div class="line">			String str = highlighter.getBestFragment(ik, &quot;content&quot;, doc.get(&quot;content&quot;));</div><div class="line">			System.out.println(str);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">加载扩展词典：mydict.dic</div><div class="line">加载扩展停止词典：surname.dic</div><div class="line">null</div><div class="line">null</div><div class="line">为什么&lt;b&gt;&lt;font color=&apos;red&apos;&gt;mysql&lt;/font&gt;&lt;/b&gt;安装失败为什么&lt;b&gt;&lt;font color=&apos;red&apos;&gt;mysql&lt;/font&gt;&lt;/b&gt;安装失败为什么&lt;b&gt;&lt;font color=&apos;red&apos;&gt;mysql&lt;/font&gt;&lt;/b&gt;安装失败&lt;p&gt;&lt;/p&gt;</div><div class="line">&lt;b&gt;&lt;font color=&apos;red&apos;&gt;mysql&lt;/font&gt;&lt;/b&gt; 反对撒发射点发射点&lt;p&gt;&lt;/p&gt;</div></pre></td></tr></table></figure>
       
     </div>
 
@@ -414,7 +330,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/java基础/" rel="tag">#java基础</a>
+            <a href="/tags/lucene/" rel="tag">#lucene</a>
           
         </div>
       
@@ -423,17 +339,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/09/04/JVM处理java数组的方法/" rel="next" title="JVM处理java数组的方法">
-                <i class="fa fa-chevron-left"></i> JVM处理java数组的方法
+              <a href="/2016/10/06/Lucene-分词器(三)/" rel="next" title="Lucene-分词器(三)">
+                <i class="fa fa-chevron-left"></i> Lucene-分词器(三)
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/09/10/== 和 equals/" rel="prev" title="== 和equals">
-                == 和equals <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -459,8 +371,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/09/07/Map详解(一)/"
-           data-title="Map详解(一)" data-url="https://stayy.github.io/2016/09/07/Map详解(一)/">
+      <div class="ds-thread" data-thread-key="2016/10/06/lucene-搜索高亮提示(四)/"
+           data-title="lucene-搜索高亮提示(四)" data-url="https://stayy.github.io/2016/10/06/lucene-搜索高亮提示(四)/">
       </div>
     
   </div>
@@ -544,7 +456,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Map接口源码分析初探"><span class="nav-number">1.</span> <span class="nav-text">Map接口源码分析初探</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#hightlighter介绍"><span class="nav-number">1.</span> <span class="nav-text">hightlighter介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例代码"><span class="nav-number">2.</span> <span class="nav-text">示例代码</span></a></li></ol></div>
             
           </div>
         </section>

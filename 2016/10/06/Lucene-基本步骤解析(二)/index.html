@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="java基础," />
+  <meta name="keywords" content="lucene," />
 
 
 
@@ -84,19 +84,22 @@
 
 
 
-<meta name="description" content="Map接口源码分析初探Map接口定义
-123456public interface Map&amp;lt;K,V&amp;gt;&amp;#123;    ...    interface Entry&amp;lt;K,V&amp;gt;&amp;#123;    &amp;#125;    ...&amp;#125;">
+<meta name="description" content="1.基本概念1、  Index:索引库，文档的集合组成索引。和一般的数据库不一样，Lucene不支持定义主键，在Lucene中不存在一个叫做Index的类，通过IndexWriter来写索引，通过IndexReader来读索引。索引库在物理形式上一般是位于一个路径下的一系列文件。
+2、  分析器(分词器)：一段有意义的文字需要通过Analyzer分析器分割成一个个词语后才能按关键字搜索，Stand">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Map详解(一)">
-<meta property="og:url" content="https://stayy.github.io/2016/09/07/Map详解(一)/index.html">
+<meta property="og:title" content="Lucene-基本步骤解析(二)">
+<meta property="og:url" content="https://stayy.github.io/2016/10/06/Lucene-基本步骤解析(二)/index.html">
 <meta property="og:site_name" content="StayY">
-<meta property="og:description" content="Map接口源码分析初探Map接口定义
-123456public interface Map&amp;lt;K,V&amp;gt;&amp;#123;    ...    interface Entry&amp;lt;K,V&amp;gt;&amp;#123;    &amp;#125;    ...&amp;#125;">
-<meta property="og:updated_time" content="2016-09-07T11:42:42.206Z">
+<meta property="og:description" content="1.基本概念1、  Index:索引库，文档的集合组成索引。和一般的数据库不一样，Lucene不支持定义主键，在Lucene中不存在一个叫做Index的类，通过IndexWriter来写索引，通过IndexReader来读索引。索引库在物理形式上一般是位于一个路径下的一系列文件。
+2、  分析器(分词器)：一段有意义的文字需要通过Analyzer分析器分割成一个个词语后才能按关键字搜索，Stand">
+<meta property="og:image" content="http://7xvmfe.com1.z0.glb.clouddn.com/20160926191434.png">
+<meta property="og:image" content="http://7xvmfe.com1.z0.glb.clouddn.com/11120160929161513.png">
+<meta property="og:updated_time" content="2016-10-06T09:20:57.395Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Map详解(一)">
-<meta name="twitter:description" content="Map接口源码分析初探Map接口定义
-123456public interface Map&amp;lt;K,V&amp;gt;&amp;#123;    ...    interface Entry&amp;lt;K,V&amp;gt;&amp;#123;    &amp;#125;    ...&amp;#125;">
+<meta name="twitter:title" content="Lucene-基本步骤解析(二)">
+<meta name="twitter:description" content="1.基本概念1、  Index:索引库，文档的集合组成索引。和一般的数据库不一样，Lucene不支持定义主键，在Lucene中不存在一个叫做Index的类，通过IndexWriter来写索引，通过IndexReader来读索引。索引库在物理形式上一般是位于一个路径下的一系列文件。
+2、  分析器(分词器)：一段有意义的文字需要通过Analyzer分析器分割成一个个词语后才能按关键字搜索，Stand">
+<meta name="twitter:image" content="http://7xvmfe.com1.z0.glb.clouddn.com/20160926191434.png">
 
 
 
@@ -117,9 +120,9 @@
 
 
 
-  <link rel="canonical" href="https://stayy.github.io/2016/09/07/Map详解(一)/"/>
+  <link rel="canonical" href="https://stayy.github.io/2016/10/06/Lucene-基本步骤解析(二)/"/>
 
-  <title> Map详解(一) | StayY </title>
+  <title> Lucene-基本步骤解析(二) | StayY </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -248,7 +251,7 @@
             
             
               
-                Map详解(一)
+                Lucene-基本步骤解析(二)
               
             
           </h1>
@@ -260,8 +263,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-07T19:42:02+08:00" content="2016-09-07">
-              2016-09-07
+            <time itemprop="dateCreated" datetime="2016-10-06T16:42:02+08:00" content="2016-10-06">
+              2016-10-06
             </time>
           </span>
 
@@ -271,8 +274,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/09/07/Map详解(一)/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/07/Map详解(一)/" itemprop="commentsCount"></span>
+                <a href="/2016/10/06/Lucene-基本步骤解析(二)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/06/Lucene-基本步骤解析(二)/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -282,7 +285,7 @@
 
           
           
-             <span id="/2016/09/07/Map详解(一)/" class="leancloud_visitors" data-flag-title="Map详解(一)">
+             <span id="/2016/10/06/Lucene-基本步骤解析(二)/" class="leancloud_visitors" data-flag-title="Lucene-基本步骤解析(二)">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -304,94 +307,38 @@
       
 
       
-        <h2 id="Map接口源码分析初探"><a href="#Map接口源码分析初探" class="headerlink" title="Map接口源码分析初探"></a>Map接口源码分析初探</h2><p>Map接口定义</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public interface Map&lt;K,V&gt;&#123;</div><div class="line">    ...</div><div class="line">    interface Entry&lt;K,V&gt;&#123;</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>除了内部接口Entry外的方法</p>
-<table>
-<thead>
-<tr>
-<th>返回值</th>
-<th>接口名</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>int</td>
-<td>size()</td>
-<td>Map的大小</td>
-</tr>
-<tr>
-<td>boolean</td>
-<td>isEmpty()</td>
-<td>判断是否为空</td>
-</tr>
-<tr>
-<td>boolean</td>
-<td>containsKey(Object key)</td>
-<td>是否包含key值</td>
-</tr>
-<tr>
-<td>boolean</td>
-<td>containsValue(Object value)</td>
-<td>是否包含value值</td>
-</tr>
-<tr>
-<td>V</td>
-<td>get(Obejct key)</td>
-<td>通过key得到值</td>
-</tr>
-<tr>
-<td>V</td>
-<td>put(K key,V value)</td>
-<td>把key和value存入map</td>
-</tr>
-<tr>
-<td>V</td>
-<td>remove(Object key)</td>
-<td>根据key移除</td>
-</tr>
-<tr>
-<td>void</td>
-<td>putAll(Map&lt;? extends K,? extends V&gt; m)</td>
-<td>复制传入的map</td>
-</tr>
-<tr>
-<td>void</td>
-<td>clear()</td>
-<td>清空map</td>
-</tr>
-<tr>
-<td>Set<k></k></td>
-<td>KeySet()</td>
-<td>返回此map中包含key的set视图</td>
-</tr>
-<tr>
-<td>Collection<v></v></td>
-<td>values()</td>
-<td>返回此映射中包含的值的collection视图</td>
-</tr>
-<tr>
-<td>Set<map,entry<k,v>&gt;</map,entry<k,v></td>
-<td>entrySet()</td>
-<td>返回此映射中包含的映射关系的 Set 视图</td>
-</tr>
-<tr>
-<td>boolean</td>
-<td>equals(Object o)</td>
-<td>比较指定的对象与此映射是否相等。如果给定的对象也是一个映射，并且这两个映射表示相同的映射关系，则返回 true</td>
-</tr>
-<tr>
-<td>int</td>
-<td>hashCode()</td>
-<td>得到hash值</td>
-</tr>
-</tbody>
-</table>
-<p>KeySet():由于Map结合的key不能重复，key之间无顺序，所以Map集合中的所有key就可以组成一个Set集合</p>
-<p>内部接口Entry方法<br>返回值 | 接口名 | 描述<br>—|—|—<br>K | getKey() | 返回与此项对应的键<br>V | getValue() | 返回与此项对应的值<br>V | setValue(V value) | 改变key对应的值<br>boolean | equals(Obejct o) | 比较是否相等<br>int | hashCode() |  得到hash值</p>
-<p>实现这个Map接口的时候 都会在其内部写一个静态类用来实现此内部接口</p>
+        <h2 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h2><p>1、  Index:索引库，文档的集合组成索引。和一般的数据库不一样，Lucene不支持定义主键，在Lucene中不存在一个叫做Index的类，通过IndexWriter来写索引，通过IndexReader来读索引。索引库在物理形式上一般是位于一个路径下的一系列文件。</p>
+<p>2、  分析器(分词器)：一段有意义的文字需要通过Analyzer分析器分割成一个个词语后才能按关键字搜索，StandardAnalyzer是Lucene中最常用的分析器。为了达到更好的搜索效果，不同的语言可以使用不同的搜索器（如IKAnalyzer是一个主要处理中文的分析器）。<br> <a id="more"></a><br>3、  Analyzer返回的结果是一串Token，Token包含一个代表词本身含义的字符串和该词在文章中相应的起止偏移位置，Token还包含一个用来存储词类型的字符串。</p>
+<p>4、  一个Document代表索引库中的一条记录，也叫做文档。要搜索的信息封装成Document后通过IndexWriter写入索引库，调用Searcher接口按关键词搜索后，返回的也是一个封装后的Document列表。</p>
+<p>5、  一个Document可以包含多个列，叫做Field。例如一篇文章可以包含“标题”、“正文”、“修改时间”等Field。创建这些列对象以后，可通过Document的add方法增加这些列。与一般数据库不同，一个文档的一个列可以有多个值，例如一篇文档既可以术语互联网类，又可以属于科技类。</p>
+<p>6、  Term是搜索语法的最小单位，复杂的搜索语法会分解成一个Term查询，他表示文档的一个词语，Term由两部分组成：它表示的词语和这个词语所出现的Field。</p>
+<h2 id="2-基本步骤"><a href="#2-基本步骤" class="headerlink" title="2.基本步骤"></a>2.基本步骤</h2><p><img src="http://7xvmfe.com1.z0.glb.clouddn.com/20160926191434.png" alt="image"></p>
+<h2 id="3-索引的创建"><a href="#3-索引的创建" class="headerlink" title="3.索引的创建"></a>3.索引的创建</h2><p>我们根据官网提供的demo一步步解析</p>
+<h6 id="3-1定义词法分析器"><a href="#3-1定义词法分析器" class="headerlink" title="3.1定义词法分析器"></a>3.1定义词法分析器</h6><blockquote>
+<p>在以前的版本中需要里面指定参数，在新版本中放弃了这种方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Analyzer analyzer = new StandardAnalyzer();</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h6 id="3-2确定索引文件的存储位置"><a href="#3-2确定索引文件的存储位置" class="headerlink" title="3.2确定索引文件的存储位置"></a>3.2确定索引文件的存储位置</h6><p>lucene提供给我们两种方式进行存储<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&apos;&apos;&apos;</div><div class="line">            // 存储索引到内存中:</div><div class="line">	    Directory directory = new RAMDirectory();</div><div class="line">	    // 存储索引到硬盘中 应该使用的方法:</div><div class="line">	    //Directory directory = FSDirectory.open(&quot;/tmp/testindex&quot;);</div><div class="line">	  </div><div class="line">&apos;&apos;&apos;</div></pre></td></tr></table></figure></p>
+<h6 id="3-3创建IndexWriter-进行索引文件的写入"><a href="#3-3创建IndexWriter-进行索引文件的写入" class="headerlink" title="3.3创建IndexWriter,进行索引文件的写入"></a>3.3创建IndexWriter,进行索引文件的写入</h6><p>IndexWriterConfig是针对indexWriter的配置,其中只包括一个参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"> IndexWriterConfig config = new IndexWriterConfig(analyzer);</div><div class="line">IndexWriter iwriter = new IndexWriter(directory, config);</div></pre></td></tr></table></figure></p>
+<h6 id="3-4内容提取，进行索引的存储"><a href="#3-4内容提取，进行索引的存储" class="headerlink" title="3.4内容提取，进行索引的存储"></a>3.4内容提取，进行索引的存储</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&apos;&apos;&apos;</div><div class="line">            Document doc = new Document();</div><div class="line">	    String text = &quot;This is the text to be indexed.&quot;;</div><div class="line">	    doc.add(new Field(&quot;fieldname&quot;, text, TextField.TYPE_STORED));</div><div class="line">	    iwriter.addDocument(doc);</div><div class="line">	    iwriter.close();</div></pre></td></tr></table></figure>
+<p>第一行:创建一个document对象，索引库包括二部份：原始记录表，词汇表。这里的document对象相当于词汇表的一条空白的记录创建</p>
+<p>第三行:第一个参数是:document对象中的属性名叫fieldname。 第二个参数是:存入词汇表中对应的内容。第三个参数表示该属性值是否是存入词汇表</p>
+<p>第四行:把doc对象加入索引创建中。</p>
+<p>第五行:关闭indexWriter,提交创建内容</p>
+<h2 id="4-关键字查询"><a href="#4-关键字查询" class="headerlink" title="4.关键字查询:"></a>4.关键字查询:</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&apos;&apos;&apos;</div><div class="line">	    DirectoryReader ireader = DirectoryReader.open(directory);</div><div class="line">	    IndexSearcher isearcher = new IndexSearcher(ireader);</div><div class="line">	    QueryParser parser = new QueryParser(&quot;fieldname&quot;, analyzer);</div><div class="line">	    Query query = parser.parse(&quot;text&quot;);</div><div class="line">	    TopDocs topDoc = isearcher.search(query, 10);</div><div class="line">	    ScoreDoc[] hits = topDoc.scoreDocs;</div></pre></td></tr></table></figure>
+<p>第一行:读取索引</p>
+<p>第二行:创建索引检索对象 统一利用IndexSearcher来解析</p>
+<p>第三,四行: 创建Query 并将 text 关键字传入里面</p>
+<p>第五,六行: 检索索引，获取符合关键字条件的前10条记录 query可以理解为sql里面的where条件</p>
+<p>TopDocs这个类 如果我们要查找索引库中 “是” 这个关键字<br><img src="http://7xvmfe.com1.z0.glb.clouddn.com/11120160929161513.png" alt="image"></p>
+<p>从图中可以看到ScoreDocs里面保存着所有匹配索引的编号和分数</p>
+<p>ScoreDoc源码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public float score; //索引获得的分数</div><div class="line"> public int doc;   //索引号</div><div class="line"> public int shardIndex;</div></pre></td></tr></table></figure>
+<p>拿到索引号后 我们就能在searcher中查找索引所对应的Document</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Document document = isearcher.doc(scoreDoc.doc);</div></pre></td></tr></table></figure>
+<p>根据我们存入的索引库字段 找到对应的值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">document.get(&quot;fieldname&quot;);</div></pre></td></tr></table></figure></p>
+<p>最后 不要忘记关闭流</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ireader.close();</div><div class="line">directory.close();</div></pre></td></tr></table></figure>
+<p>lucene5.4.1所有代码和拓展代码地址:<a href="https://github.com/StayY/begincodeLucene" target="_blank" rel="external">https://github.com/StayY/begincodeLucene</a></p>
 
       
     </div>
@@ -414,7 +361,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/java基础/" rel="tag">#java基础</a>
+            <a href="/tags/lucene/" rel="tag">#lucene</a>
           
         </div>
       
@@ -423,16 +370,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/09/04/JVM处理java数组的方法/" rel="next" title="JVM处理java数组的方法">
-                <i class="fa fa-chevron-left"></i> JVM处理java数组的方法
+              <a href="/2016/10/06/lucene 入门(版本 5.4.1) (一)/" rel="next" title="lucene 入门(版本 5.4.1) (一)">
+                <i class="fa fa-chevron-left"></i> lucene 入门(版本 5.4.1) (一)
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/09/10/== 和 equals/" rel="prev" title="== 和equals">
-                == 和equals <i class="fa fa-chevron-right"></i>
+              <a href="/2016/10/06/Lucene-分词器(三)/" rel="prev" title="Lucene-分词器(三)">
+                Lucene-分词器(三) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -459,8 +406,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/09/07/Map详解(一)/"
-           data-title="Map详解(一)" data-url="https://stayy.github.io/2016/09/07/Map详解(一)/">
+      <div class="ds-thread" data-thread-key="2016/10/06/Lucene-基本步骤解析(二)/"
+           data-title="Lucene-基本步骤解析(二)" data-url="https://stayy.github.io/2016/10/06/Lucene-基本步骤解析(二)/">
       </div>
     
   </div>
@@ -544,7 +491,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Map接口源码分析初探"><span class="nav-number">1.</span> <span class="nav-text">Map接口源码分析初探</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-基本概念"><span class="nav-number">1.</span> <span class="nav-text">1.基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-基本步骤"><span class="nav-number">2.</span> <span class="nav-text">2.基本步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-索引的创建"><span class="nav-number">3.</span> <span class="nav-text">3.索引的创建</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#3-1定义词法分析器"><span class="nav-number">3.0.0.0.1.</span> <span class="nav-text">3.1定义词法分析器</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-2确定索引文件的存储位置"><span class="nav-number">3.0.0.0.2.</span> <span class="nav-text">3.2确定索引文件的存储位置</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-3创建IndexWriter-进行索引文件的写入"><span class="nav-number">3.0.0.0.3.</span> <span class="nav-text">3.3创建IndexWriter,进行索引文件的写入</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-4内容提取，进行索引的存储"><span class="nav-number">3.0.0.0.4.</span> <span class="nav-text">3.4内容提取，进行索引的存储</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-关键字查询"><span class="nav-number">4.</span> <span class="nav-text">4.关键字查询:</span></a></li></ol></div>
             
           </div>
         </section>
