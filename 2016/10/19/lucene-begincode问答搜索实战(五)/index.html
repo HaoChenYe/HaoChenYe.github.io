@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="lucene," />
 
 
 
@@ -84,15 +84,19 @@
 
 
 
-<meta name="description" content="java,专注网页后端技术。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="StayY">
-<meta property="og:url" content="https://stayy.github.io/index.html">
+<meta name="description" content="关于begincode搜索方案，我的想法是直接放入web模块 和主站一起上线。后来老杨的意见是主站业务和搜索业务独立成两个war项目，就是两个业务之间的耦合最小。
+最终方案的选用是在搜索项目中暴露一个http接口，在有问题新增的时候就发送一个http请求给搜索端，这个请求中带有一个问题的标识(==在这里我们也想过直接发送文章内容，这样就减少查询数据库的步骤，考虑到文章内容可能会太多，就舍弃了这个想">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lucene-begincode问答搜索实战(五)">
+<meta property="og:url" content="https://stayy.github.io/2016/10/19/lucene-begincode问答搜索实战(五)/index.html">
 <meta property="og:site_name" content="StayY">
-<meta property="og:description" content="java,专注网页后端技术。">
+<meta property="og:description" content="关于begincode搜索方案，我的想法是直接放入web模块 和主站一起上线。后来老杨的意见是主站业务和搜索业务独立成两个war项目，就是两个业务之间的耦合最小。
+最终方案的选用是在搜索项目中暴露一个http接口，在有问题新增的时候就发送一个http请求给搜索端，这个请求中带有一个问题的标识(==在这里我们也想过直接发送文章内容，这样就减少查询数据库的步骤，考虑到文章内容可能会太多，就舍弃了这个想">
+<meta property="og:updated_time" content="2016-10-19T13:06:07.810Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="StayY">
-<meta name="twitter:description" content="java,专注网页后端技术。">
+<meta name="twitter:title" content="lucene-begincode问答搜索实战(五)">
+<meta name="twitter:description" content="关于begincode搜索方案，我的想法是直接放入web模块 和主站一起上线。后来老杨的意见是主站业务和搜索业务独立成两个war项目，就是两个业务之间的耦合最小。
+最终方案的选用是在搜索项目中暴露一个http接口，在有问题新增的时候就发送一个http请求给搜索端，这个请求中带有一个问题的标识(==在这里我们也想过直接发送文章内容，这样就减少查询数据库的步骤，考虑到文章内容可能会太多，就舍弃了这个想">
 
 
 
@@ -113,9 +117,9 @@
 
 
 
-  <link rel="canonical" href="https://stayy.github.io/"/>
+  <link rel="canonical" href="https://stayy.github.io/2016/10/19/lucene-begincode问答搜索实战(五)/"/>
 
-  <title> StayY </title>
+  <title> lucene-begincode问答搜索实战(五) | StayY </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -145,9 +149,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -224,9 +226,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -246,10 +248,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/10/19/lucene-begincode问答搜索实战(五)/" itemprop="url">
-                  lucene-begincode问答搜索实战(五)
-                </a>
+                lucene-begincode问答搜索实战(五)
               
             
           </h1>
@@ -305,9 +304,7 @@
       
 
       
-        
-          
-            <p>关于begincode搜索方案，我的想法是直接放入web模块 和主站一起上线。后来老杨的意见是主站业务和搜索业务独立成两个war项目，就是两个业务之间的耦合最小。</p>
+        <p>关于begincode搜索方案，我的想法是直接放入web模块 和主站一起上线。后来老杨的意见是主站业务和搜索业务独立成两个war项目，就是两个业务之间的耦合最小。</p>
 <p>最终方案的选用是在搜索项目中暴露一个http接口，在有问题新增的时候就发送一个http请求给搜索端，这个请求中带有一个问题的标识(==在这里我们也想过直接发送文章内容，这样就减少查询数据库的步骤，考虑到文章内容可能会太多，就舍弃了这个想法==)，然后搜索端就从数据库中查找这个问题，加入内存索引中，通过搜索项目中的一个提交线程，间隔固定的时间提交内存索引和合并索引。这个http请求的发送我们使用httpclient进行功能的实现，最大化的解耦。<br>&lt;!-more-&gt;</p>
 <blockquote>
 <p>还提供了一种方案是监听数据库的数据传入 可以使用数据库的binlog日志,有数据传入的时候就提醒搜索更新索引。</p>
@@ -334,489 +331,59 @@
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最初的想法是搜索不用近实时的提供搜索，就是通过定时任务来索引前一天新加入进来的数据，会有效的减轻服务器的压力。不过为了用户的体验更好，还是做成了近实时索引。 关于解耦，由于是两个独立的项目 web项目中不需要任何的配置 就能完成索引的创建.这只是基本功能的实现，要具体的完整做好搜索还是需要不断的改进！</p>
 <p><a href="http://git.oschina.net/yangsj/begincode_wenda" target="_blank" rel="external">http://git.oschina.net/yangsj/begincode_wenda</a></p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/06/lucene-搜索高亮提示(四)/" itemprop="url">
-                  lucene-搜索高亮提示(四)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-06T16:59:02+08:00" content="2016-10-06">
-              2016-10-06
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/10/06/lucene-搜索高亮提示(四)/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/06/lucene-搜索高亮提示(四)/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/10/06/lucene-搜索高亮提示(四)/" class="leancloud_visitors" data-flag-title="lucene-搜索高亮提示(四)">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
+            <a href="/tags/lucene/" rel="tag">#lucene</a>
           
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h2 id="hightlighter介绍"><a href="#hightlighter介绍" class="headerlink" title="hightlighter介绍"></a>hightlighter介绍</h2><p>我们在查询的时候，希望对我们的搜索结果与搜索内容相近的地方进行着重显示，效果如下:<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/10/06/lucene-搜索高亮提示(四)/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/06/lucene-搜索高亮提示(四)/" rel="next" title="lucene-搜索高亮提示(四)">
+                <i class="fa fa-chevron-left"></i> lucene-搜索高亮提示(四)
+              </a>
+            
           </div>
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+          <div class="post-nav-prev post-nav-item">
             
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/06/Lucene-分词器(三)/" itemprop="url">
-                  Lucene-分词器(三)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-06T16:50:02+08:00" content="2016-10-06">
-              2016-10-06
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/10/06/Lucene-分词器(三)/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/06/Lucene-分词器(三)/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/10/06/Lucene-分词器(三)/" class="leancloud_visitors" data-flag-title="Lucene-分词器(三)">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h2 id="1-什么是分词"><a href="#1-什么是分词" class="headerlink" title="1.什么是分词"></a>1.什么是分词</h2><p>分词器能以某种规则对关键字进行分词,将分好的词放到目录中,以作为检索到的条件,在创建索引时会使用到分词器,在搜索时也将用到分词器。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/10/06/Lucene-分词器(三)/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-      
 
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/06/Lucene-基本步骤解析(二)/" itemprop="url">
-                  Lucene-基本步骤解析(二)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-06T16:42:02+08:00" content="2016-10-06">
-              2016-10-06
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/10/06/Lucene-基本步骤解析(二)/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/06/Lucene-基本步骤解析(二)/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/10/06/Lucene-基本步骤解析(二)/" class="leancloud_visitors" data-flag-title="Lucene-基本步骤解析(二)">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h2><p>1、  Index:索引库，文档的集合组成索引。和一般的数据库不一样，Lucene不支持定义主键，在Lucene中不存在一个叫做Index的类，通过IndexWriter来写索引，通过IndexReader来读索引。索引库在物理形式上一般是位于一个路径下的一系列文件。</p>
-<p>2、  分析器(分词器)：一段有意义的文字需要通过Analyzer分析器分割成一个个词语后才能按关键字搜索，StandardAnalyzer是Lucene中最常用的分析器。为了达到更好的搜索效果，不同的语言可以使用不同的搜索器（如IKAnalyzer是一个主要处理中文的分析器）。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/10/06/Lucene-基本步骤解析(二)/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
+    <div class="post-spread">
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/06/lucene 入门(版本 5.4.1) (一)/" itemprop="url">
-                  lucene 入门(版本 5.4.1) (一)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-06T15:42:02+08:00" content="2016-10-06">
-              2016-10-06
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/10/06/lucene 入门(版本 5.4.1) (一)/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/06/lucene 入门(版本 5.4.1) (一)/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/10/06/lucene 入门(版本 5.4.1) (一)/" class="leancloud_visitors" data-flag-title="lucene 入门(版本 5.4.1) (一)">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="什么是Lucene"><a href="#什么是Lucene" class="headerlink" title="什么是Lucene"></a>什么是Lucene</h2><p>Lucene是apache软件基金会发布的一个开放源代码的全文检索引擎工具包，由资深全文检索专<br>家Doug Cutting所撰写,它是一个全文检索引擎的架构，提供了完整的创建索引和查询索引，以及部分文本分析的引擎，Lucene的目的是为软件开发人员提供一个简单易用的工具包，以方便在目标系统中实现全文检索的功能，或者是以此为基础建立起完整的全文检索引擎，Lucene在全文检索领域是一个经典的祖先，现在很多检索引擎都是在其基础上创建的，思想是相通的。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/10/06/lucene 入门(版本 5.4.1) (一)/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
+  </div>
 
 
           </div>
@@ -824,6 +391,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/10/19/lucene-begincode问答搜索实战(五)/"
+           data-title="lucene-begincode问答搜索实战(五)" data-url="https://stayy.github.io/2016/10/19/lucene-begincode问答搜索实战(五)/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -843,8 +418,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/20160824113244.png"
@@ -887,6 +471,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#具体实现"><span class="nav-number">1.</span> <span class="nav-text">具体实现</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#索引的创建"><span class="nav-number">1.0.0.0.1.</span> <span class="nav-text">索引的创建</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#索引的管理"><span class="nav-number">1.0.0.0.2.</span> <span class="nav-text">索引的管理</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -990,6 +585,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
