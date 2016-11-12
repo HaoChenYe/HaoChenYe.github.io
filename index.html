@@ -247,6 +247,120 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/12/ArrayList 源码解析 及其扩展/" itemprop="url">
+                  ArrayList 源码解析 及其扩展
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-12T13:23:02+08:00" content="2016-11-12">
+              2016-11-12
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/12/ArrayList 源码解析 及其扩展/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/12/ArrayList 源码解析 及其扩展/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/11/12/ArrayList 源码解析 及其扩展/" class="leancloud_visitors" data-flag-title="ArrayList 源码解析 及其扩展">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>ArrayList 基于数组实现，是一个动态数组，其容量能自然增长(1.5倍增长)。</p>
+<blockquote>
+<p>不是线程安全，你可以使用Collection.synchronizedList方法将该列表包装起来，以防止意外对列表进行不同步的访问。也可以使用concurrent并发包下的CopyOnWriteArrayList类。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/11/12/ArrayList 源码解析 及其扩展/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/23/提高mysql千万级大数据sql查询优化的30条经验/" itemprop="url">
                   提高mysql千万级大数据sql查询优化的30条经验
                 </a>
@@ -676,119 +790,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/06/Lucene-基本步骤解析(二)/" itemprop="url">
-                  Lucene-基本步骤解析(二)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-06T16:42:02+08:00" content="2016-10-06">
-              2016-10-06
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/10/06/Lucene-基本步骤解析(二)/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/06/Lucene-基本步骤解析(二)/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/10/06/Lucene-基本步骤解析(二)/" class="leancloud_visitors" data-flag-title="Lucene-基本步骤解析(二)">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h2><p>1、  Index:索引库，文档的集合组成索引。和一般的数据库不一样，Lucene不支持定义主键，在Lucene中不存在一个叫做Index的类，通过IndexWriter来写索引，通过IndexReader来读索引。索引库在物理形式上一般是位于一个路径下的一系列文件。</p>
-<p>2、  分析器(分词器)：一段有意义的文字需要通过Analyzer分析器分割成一个个词语后才能按关键字搜索，StandardAnalyzer是Lucene中最常用的分析器。为了达到更好的搜索效果，不同的语言可以使用不同的搜索器（如IKAnalyzer是一个主要处理中文的分析器）。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/10/06/Lucene-基本步骤解析(二)/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -834,7 +835,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">12</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

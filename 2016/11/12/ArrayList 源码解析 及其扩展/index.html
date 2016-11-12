@@ -1,0 +1,775 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java,java基础," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="概述ArrayList 基于数组实现，是一个动态数组，其容量能自然增长(1.5倍增长)。
+
+不是线程安全，你可以使用Collection.synchronizedList方法将该列表包装起来，以防止意外对列表进行不同步的访问。也可以使用concurrent并发包下的CopyOnWriteArrayList类。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ArrayList 源码解析 及其扩展">
+<meta property="og:url" content="https://stayy.github.io/2016/11/12/ArrayList 源码解析 及其扩展/index.html">
+<meta property="og:site_name" content="StayY">
+<meta property="og:description" content="概述ArrayList 基于数组实现，是一个动态数组，其容量能自然增长(1.5倍增长)。
+
+不是线程安全，你可以使用Collection.synchronizedList方法将该列表包装起来，以防止意外对列表进行不同步的访问。也可以使用concurrent并发包下的CopyOnWriteArrayList类。">
+<meta property="og:image" content="http://7xvmfe.com1.z0.glb.clouddn.com/arrayList1.png">
+<meta property="og:image" content="http://7xvmfe.com1.z0.glb.clouddn.com/arrayList2.png">
+<meta property="og:image" content="http://7xvmfe.com1.z0.glb.clouddn.com/arrayList3.png">
+<meta property="og:image" content="http://7xvmfe.com1.z0.glb.clouddn.com/arrayList5.png">
+<meta property="og:image" content="http://7xvmfe.com1.z0.glb.clouddn.com/arrayList4.png">
+<meta property="og:image" content="http://7xvmfe.com1.z0.glb.clouddn.com/List.png">
+<meta property="og:updated_time" content="2016-11-12T05:49:20.325Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ArrayList 源码解析 及其扩展">
+<meta name="twitter:description" content="概述ArrayList 基于数组实现，是一个动态数组，其容量能自然增长(1.5倍增长)。
+
+不是线程安全，你可以使用Collection.synchronizedList方法将该列表包装起来，以防止意外对列表进行不同步的访问。也可以使用concurrent并发包下的CopyOnWriteArrayList类。">
+<meta name="twitter:image" content="http://7xvmfe.com1.z0.glb.clouddn.com/arrayList1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://stayy.github.io/2016/11/12/ArrayList 源码解析 及其扩展/"/>
+
+  <title> ArrayList 源码解析 及其扩展 | StayY </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=58300317";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">StayY</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">个人博客</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ArrayList 源码解析 及其扩展
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-12T13:23:02+08:00" content="2016-11-12">
+              2016-11-12
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/12/ArrayList 源码解析 及其扩展/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/12/ArrayList 源码解析 及其扩展/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/11/12/ArrayList 源码解析 及其扩展/" class="leancloud_visitors" data-flag-title="ArrayList 源码解析 及其扩展">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>ArrayList 基于数组实现，是一个动态数组，其容量能自然增长(1.5倍增长)。</p>
+<blockquote>
+<p>不是线程安全，你可以使用Collection.synchronizedList方法将该列表包装起来，以防止意外对列表进行不同步的访问。也可以使用concurrent并发包下的CopyOnWriteArrayList类。<br><a id="more"></a></p>
+<h6 id="java-1-6API对其解释"><a href="#java-1-6API对其解释" class="headerlink" title="java 1.6API对其解释"></a>java 1.6API对其解释</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">返回指定列表支持的同步（线程安全的）列表。为了保证按顺序访问，必须通过返回的列表完成所有对底层实现列表的访问。</div><div class="line">在返回的列表上进行迭代时，用户必须手工在返回的列表上进行同步： </div><div class="line"></div><div class="line">  List list = Collections.synchronizedList(new ArrayList());</div><div class="line">      ...</div><div class="line">  synchronized(list) &#123;</div><div class="line">      Iterator i = list.iterator(); // Must be in synchronized block</div><div class="line">      while (i.hasNext())</div><div class="line">          foo(i.next());</div><div class="line">  &#125;</div><div class="line"> 不遵从此建议将导致无法确定的行为。 </div><div class="line">如果指定列表是可序列化的，则返回的列表也将是可序列化的。</div></pre></td></tr></table></figure>
+</blockquote>
+<p>ArrayList实现了 List,RandomAccess,Cloneable,Serialiable 接口</p>
+<p>RandomAccess接口，支持随机访问，实际上就是通过下标序号进行快速访问。实际上，实现此接口的List使用  for (int i=0, n=list.size(); i &lt; n; i++) 这种方式迭代的速度会比用for(int i : list)会快一点 </p>
+<h2 id="ArrayList实现-JDK1-7"><a href="#ArrayList实现-JDK1-7" class="headerlink" title="ArrayList实现(JDK1.7)"></a>ArrayList实现(JDK1.7)</h2><p>ArrayList中定义了四个私有属性:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">private static final int DEFAULT_CAPACITY = 10;     //默认容量</div><div class="line">private static final Object[] EMPTY_ELEMENTDATA = &#123;&#125;;     //一个空数组，当用户指定了0为容量时，返回该空数组</div><div class="line">private transient Object[] elementData; //实际存放数据的数组</div><div class="line">private int size;    //实际存放数据的大小</div></pre></td></tr></table></figure>
+<p>构造方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">public ArrayList(int initialCapacity) &#123;</div><div class="line">    super();</div><div class="line">    if (initialCapacity &lt; 0)</div><div class="line">        throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+</div><div class="line">                                           initialCapacity);</div><div class="line">    //构造一个新数组，指定容量</div><div class="line">    this.elementData = new Object[initialCapacity];</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">public ArrayList() &#123;</div><div class="line">    super();</div><div class="line">    //默认等于空的数组</div><div class="line">    this.elementData = EMPTY_ELEMENTDATA;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">//此方法的Collection是指集合类只要实现了Collection接口 都能重新转换为ArrayList(List接口已经继承了Collection接口)</div><div class="line">public ArrayList(Collection&lt;? extends E&gt; c) &#123;</div><div class="line">    //转换为数组</div><div class="line">    elementData = c.toArray();</div><div class="line">    size = elementData.length;</div><div class="line">    if (elementData.getClass() != Object[].class)</div><div class="line">        //调用native方法 快速构造数组</div><div class="line">        elementData = Arrays.copyOf(elementData, size, Object[].class);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="ArrayList增加操作"><a href="#ArrayList增加操作" class="headerlink" title="ArrayList增加操作"></a>ArrayList增加操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">&apos;&apos;&apos;</div><div class="line">    //将当前容量调整为实际个数</div><div class="line">    public void trimToSize() &#123;</div><div class="line">        modCount++;</div><div class="line">        if (size &lt; elementData.length) &#123;</div><div class="line">            elementData = Arrays.copyOf(elementData, size);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    </div><div class="line">    public boolean add(E e) &#123;</div><div class="line">        //此方法的关键是grow函数，增加元素是一个一个添加 所以size+1传入进去</div><div class="line">        ensureCapacityInternal(size + 1);  </div><div class="line">        elementData[size++] = e;</div><div class="line">        return true;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    private void ensureCapacityInternal(int minCapacity) &#123;</div><div class="line">        if (elementData == EMPTY_ELEMENTDATA) &#123;</div><div class="line">            minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        ensureExplicitCapacity(minCapacity);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void ensureExplicitCapacity(int minCapacity) &#123;</div><div class="line">        modCount++;</div><div class="line">        if (minCapacity - elementData.length &gt; 0)</div><div class="line">            grow(minCapacity);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    private void grow(int minCapacity) &#123;</div><div class="line">        int oldCapacity = elementData.length;</div><div class="line">        //默认增加为原大小的1.5倍    oldCapacity&gt;&gt;1是把数转换为二进制 并向右移动一位 效果相当于 oldCapacity/2</div><div class="line">        int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);</div><div class="line">        //判断增加后的大小够不够，够了就直接使用newCapacity创建新数组</div><div class="line">        if (newCapacity - minCapacity &lt; 0)</div><div class="line">            newCapacity = minCapacity;</div><div class="line">        if (newCapacity - MAX_ARRAY_SIZE &gt; 0)//如果增加后的大小比规定的最大size还大 则调用hugeCapacity方法</div><div class="line">            newCapacity = hugeCapacity(minCapacity);</div><div class="line">        //正常情况下 新的数组大小都为以前的1.5倍</div><div class="line">        elementData = Arrays.copyOf(elementData, newCapacity);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    private static int hugeCapacity(int minCapacity) &#123;</div><div class="line">        if (minCapacity &lt; 0) </div><div class="line">            throw new OutOfMemoryError();</div><div class="line">        return (minCapacity &gt; MAX_ARRAY_SIZE) ?</div><div class="line">            Integer.MAX_VALUE :</div><div class="line">            MAX_ARRAY_SIZE;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>容量扩大，调用的是Arrays.copyOf(..,..);这个方法，虽然这个方法是native方法，源码里面是创建一个新的数组，然后将旧数组上的数组copy到新数组，这是一个很大的消耗。如果放在程序中，我们最好能够预计其大小，避免重复申请内存。</p>
+<hr>
+<h5 id="注意"><a href="#注意" class="headerlink" title="==注意==:"></a>==注意==:</h5><p>1.在jdk1.6中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public void ensureCapacity(int minCapacity) &#123;</div><div class="line">      modCount++;</div><div class="line">     int oldCapacity = elementData.length;</div><div class="line">     if (minCapacity &gt; oldCapacity) &#123;</div><div class="line">         Object oldData[] = elementData;</div><div class="line">         int newCapacity = (oldCapacity * 3)/2 + 1;</div><div class="line">             if (newCapacity &lt; minCapacity)</div><div class="line">         newCapacity = minCapacity;</div><div class="line">             // minCapacity is usually close to size, so this is a win:</div><div class="line">             elementData = Arrays.copyOf(elementData, newCapacity);</div><div class="line">     &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>很明显 这里的数组扩容没有使用位运算，而是直接使用除法和乘法，从效率上来看，jdk1.7 的ArrayList 会比 jdk1.6快一点(位运算更接近系统底层，有兴趣的同学 可以百度)</p>
+<p>2.jdk1.6中没有定义MAX_ARRAY_SIZE的大小，所以无法做判断，这也是1.7中改进的地方。</p>
+<hr>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>我们在15 16行打上断点</p>
+<p><img src="http://7xvmfe.com1.z0.glb.clouddn.com/arrayList1.png" alt="image"></p>
+<p>到达15行 还未运行完15行时 list中只有4个数据 所以size为4 因为刚开始定义了5为list的初始大小，则下标为4的为null</p>
+<p><img src="http://7xvmfe.com1.z0.glb.clouddn.com/arrayList2.png" alt="image"></p>
+<p>当运行完15行 到达16行时，很明显list已经满了</p>
+<p><img src="http://7xvmfe.com1.z0.glb.clouddn.com/arrayList3.png" alt="image"></p>
+<p>运行完16行后，list扩容为7  (5*1.5 省略小数点后面的数) 所以下标为6的为null</p>
+<p><img src="http://7xvmfe.com1.z0.glb.clouddn.com/arrayList5.png" alt="image"></p>
+<p>最后输出list.size()的大小，因为是返回list实际的大小 和elementData大小无关</p>
+<p><img src="http://7xvmfe.com1.z0.glb.clouddn.com/arrayList4.png" alt="image"></p>
+<hr>
+<p>说完了最复杂的增加操作，我们说删，改，查。</p>
+<h4 id="删除操作"><a href="#删除操作" class="headerlink" title="删除操作"></a>删除操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">//移除指定位置的数据</div><div class="line"> public E remove(int index) &#123;</div><div class="line">        //检查是否下标越界</div><div class="line">        rangeCheck(index);</div><div class="line"></div><div class="line">        modCount++;</div><div class="line">        E oldValue = elementData(index);</div><div class="line"></div><div class="line">        int numMoved = size - index - 1;</div><div class="line">        if (numMoved &gt; 0)</div><div class="line">            //elementData从第index+1下标开始 复制到原elementData的index下标开始 numMoved是复制的长度</div><div class="line">            //numMoved已经定义好了 是从要移除的下标号后面还剩余的数组长度</div><div class="line">            System.arraycopy(elementData, index+1, elementData, index,</div><div class="line">                             numMoved);</div><div class="line">        //数组最后一个数就为null了</div><div class="line">        elementData[--size] = null; </div><div class="line">        //返回移除后的数据</div><div class="line">        return oldValue;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">private void rangeCheck(int index) &#123;</div><div class="line">        if (index &gt;= size)</div><div class="line">            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    </div><div class="line">    </div><div class="line">    </div><div class="line">//移除指定数据</div><div class="line">public boolean remove(Object o) &#123;</div><div class="line">    //判断对象是否为空</div><div class="line">    if (o == null) &#123;</div><div class="line">        //迭代数组查找目标</div><div class="line">        for (int index = 0; index &lt; size; index++)</div><div class="line">            //迭代数组里面为空数据的索引号，快速删除</div><div class="line">            if (elementData[index] == null) &#123;</div><div class="line">                fastRemove(index);</div><div class="line">                return true;</div><div class="line">            &#125;</div><div class="line">    &#125; else &#123;</div><div class="line">        for (int index = 0; index &lt; size; index++)</div><div class="line">            //和节点比较</div><div class="line">            if (o.equals(elementData[index])) &#123;</div><div class="line">                fastRemove(index);</div><div class="line">                return true;</div><div class="line">            &#125;</div><div class="line">    &#125;</div><div class="line">    return false;</div><div class="line">&#125;</div><div class="line">//其实这个方法和remove(int index) 里面的方法如出一辙</div><div class="line">//可能开发人员没有重复把这个方法运用到remove(int index)里，</div><div class="line">private void fastRemove(int index) &#123;</div><div class="line">        modCount++;</div><div class="line">        int numMoved = size - index - 1;</div><div class="line">        if (numMoved &gt; 0)</div><div class="line">            System.arraycopy(elementData, index+1, elementData, index,</div><div class="line">                             numMoved);</div><div class="line">        elementData[--size] = null; </div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>以上这些 就很好的说明了 为什么ArrayList增和删的效率不高了 都是要重新给数组赋值，或者新new一个数组接收更改后的旧数组，这样对内存的消耗会很大。</p>
+<h4 id="修改和删除"><a href="#修改和删除" class="headerlink" title="修改和删除"></a>修改和删除</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public E set(int index, E element) &#123;</div><div class="line">       rangeCheck(index);</div><div class="line"></div><div class="line">       E oldValue = elementData(index);</div><div class="line">       elementData[index] = element;</div><div class="line">       return oldValue;</div><div class="line">   &#125;</div><div class="line">public E get(int index) &#123;</div><div class="line">       rangeCheck(index);</div><div class="line"></div><div class="line">       return elementData(index);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>这个应该很简单了吧 我就不给注释了。</p>
+<h2 id="ArrayList扩展"><a href="#ArrayList扩展" class="headerlink" title="ArrayList扩展"></a>ArrayList扩展</h2><p>我们在eclipse中 ctrl+t 查看实现list接口的类有哪些<br><img src="http://7xvmfe.com1.z0.glb.clouddn.com/List.png" alt="image"></p>
+<p>这其中我们所了解的恐怕只有LinkedList和Vector了</p>
+<p>这里大致说一下这两个集合类</p>
+<p>LinkedList 底层是链表结构，而且是双链表，也可以当作堆栈，队列或双端队列进行操作。<br>特点是:查询效率低，增删效率高</p>
+<p>Vector 底层也是用数组实现的，里面大部分方法都被声明了synchronized关键字，所以说是线程安全的集合，就是因为synchronized关键字的存在，这个集合本身就是很重量级，几乎很少用到。</p>
+<p>关于线程安全和不安全的问题，因为我们是程序员嘛，当然会有办法外部控制这个操作，所以没必要纠结用哪个集合。但是如果有现成的类使用，就不要重复造轮子了。</p>
+<p>concurrent包下有很多有趣的类，有兴趣可以去阅读。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+            <a href="/tags/java基础/" rel="tag">#java基础</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/23/提高mysql千万级大数据sql查询优化的30条经验/" rel="next" title="提高mysql千万级大数据sql查询优化的30条经验">
+                <i class="fa fa-chevron-left"></i> 提高mysql千万级大数据sql查询优化的30条经验
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/12/ArrayList 源码解析 及其扩展/"
+           data-title="ArrayList 源码解析 及其扩展" data-url="https://stayy.github.io/2016/11/12/ArrayList 源码解析 及其扩展/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/20160824113244.png"
+               alt="StayY" />
+          <p class="site-author-name" itemprop="name">StayY</p>
+          <p class="site-description motion-element" itemprop="description">java,专注网页后端技术。目标:全栈工程师</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#java-1-6API对其解释"><span class="nav-number">1.0.0.0.1.</span> <span class="nav-text">java 1.6API对其解释</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ArrayList实现-JDK1-7"><span class="nav-number">2.</span> <span class="nav-text">ArrayList实现(JDK1.7)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ArrayList增加操作"><span class="nav-number">2.0.1.</span> <span class="nav-text">ArrayList增加操作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注意"><span class="nav-number">2.0.1.1.</span> <span class="nav-text">==注意==:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例子"><span class="nav-number">2.1.</span> <span class="nav-text">例子</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#删除操作"><span class="nav-number">2.1.1.</span> <span class="nav-text">删除操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改和删除"><span class="nav-number">2.1.2.</span> <span class="nav-text">修改和删除</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ArrayList扩展"><span class="nav-number">3.</span> <span class="nav-text">ArrayList扩展</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">StayY</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"stayy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("XothEmCb5LfqH4FmJOfF78Eo-gzGzoHsz", "JCi9gKLYV6Jd9fSlQ0jOMMv3");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
