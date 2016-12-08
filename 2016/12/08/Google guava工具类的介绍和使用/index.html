@@ -1,0 +1,852 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java,Google guava," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="概述工具类 就是封装平常用的方法，不需要你重复造轮子，节省开发人员时间，提高工作效率。谷歌作为大公司，当然会从日常的工作中提取中很多高效率的方法出来。所以就诞生了guava。。
+
+高效设计良好的API，被Google的开发者设计，实现和使用
+遵循高效的java语法实践
+使代码更刻度，简洁，简单
+节约时间，资源，提高生产力">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Google guava工具类的介绍和使用">
+<meta property="og:url" content="http://thenmoret.com/2016/12/08/Google guava工具类的介绍和使用/index.html">
+<meta property="og:site_name" content="StayY">
+<meta property="og:description" content="概述工具类 就是封装平常用的方法，不需要你重复造轮子，节省开发人员时间，提高工作效率。谷歌作为大公司，当然会从日常的工作中提取中很多高效率的方法出来。所以就诞生了guava。。
+
+高效设计良好的API，被Google的开发者设计，实现和使用
+遵循高效的java语法实践
+使代码更刻度，简洁，简单
+节约时间，资源，提高生产力">
+<meta property="og:updated_time" content="2016-12-08T13:56:09.293Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Google guava工具类的介绍和使用">
+<meta name="twitter:description" content="概述工具类 就是封装平常用的方法，不需要你重复造轮子，节省开发人员时间，提高工作效率。谷歌作为大公司，当然会从日常的工作中提取中很多高效率的方法出来。所以就诞生了guava。。
+
+高效设计良好的API，被Google的开发者设计，实现和使用
+遵循高效的java语法实践
+使代码更刻度，简洁，简单
+节约时间，资源，提高生产力">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://thenmoret.com/2016/12/08/Google guava工具类的介绍和使用/"/>
+
+  <title> Google guava工具类的介绍和使用 | StayY </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=58300317";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">StayY</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">个人博客</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Google guava工具类的介绍和使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-08T20:23:02+08:00" content="2016-12-08">
+              2016-12-08
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/08/Google guava工具类的介绍和使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/08/Google guava工具类的介绍和使用/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/12/08/Google guava工具类的介绍和使用/" class="leancloud_visitors" data-flag-title="Google guava工具类的介绍和使用">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>工具类 就是封装平常用的方法，不需要你重复造轮子，节省开发人员时间，提高工作效率。谷歌作为大公司，当然会从日常的工作中提取中很多高效率的方法出来。所以就诞生了guava。。</p>
+<ul>
+<li>高效设计良好的API，被Google的开发者设计，实现和使用</li>
+<li>遵循高效的java语法实践</li>
+<li>使代码更刻度，简洁，简单</li>
+<li>节约时间，资源，提高生产力<a id="more"></a>
+Guava工程包含了若干被Google的 Java项目广泛依赖 的核心库，例如：</li>
+</ul>
+<ol>
+<li>集合 [collections] </li>
+<li>缓存 [caching]</li>
+<li>原生类型支持 [primitives support] </li>
+<li>并发库 [concurrency libraries]</li>
+<li>通用注解 [common annotations] </li>
+<li>字符串处理 [string processing] </li>
+<li>I/O 等等。</li>
+</ol>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>引入maven依赖(就是引入jar包)</p>
+<p>(从版本号就能看出 guava是一步步改进的，并且跟随的jdk不断的提取其中优秀的部分)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&apos;&apos;&apos;</div><div class="line">&lt;dependency&gt;</div><div class="line">	&lt;groupId&gt;com.google.guava&lt;/groupId&gt;</div><div class="line">	&lt;artifactId&gt;guava&lt;/artifactId&gt;</div><div class="line">	&lt;version&gt;20.0&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div><div class="line">&apos;&apos;&apos;</div></pre></td></tr></table></figure></p>
+<h4 id="1-集合的创建"><a href="#1-集合的创建" class="headerlink" title="1.集合的创建"></a>1.集合的创建</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// 普通Collection的创建</div><div class="line">List&lt;String&gt; list = Lists.newArrayList();</div><div class="line">Set&lt;String&gt; set = Sets.newHashSet();</div><div class="line">Map&lt;String, String&gt; map = Maps.newHashMap();</div><div class="line"></div><div class="line">// 不变Collection的创建</div><div class="line">ImmutableList&lt;String&gt; iList = ImmutableList.of(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;);</div><div class="line">ImmutableSet&lt;String&gt; iSet = ImmutableSet.of(&quot;e1&quot;, &quot;e2&quot;);</div><div class="line">ImmutableMap&lt;String, String&gt; iMap = ImmutableMap.of(&quot;k1&quot;, &quot;v1&quot;, &quot;k2&quot;, &quot;v2&quot;);</div></pre></td></tr></table></figure>
+<blockquote>
+<p>创建不可变集合<br>先理解什么是immutable(不可变)对象</p>
+<p>1.在多线程操作下，是线程安全的。</p>
+<p>2.所有不可变集合会比可变集合更有效的利用资源。</p>
+<p>3.中途不可改变</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; ImmutableList&lt;String&gt; immutableList = ImmutableList.of(&quot;1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;);</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+<p>这句话就声明了一个不可变的list集合，里面有数据1，2，3，4。方法中的==操作集合的方法都声明过期==，并且抛出异常。</p>
+<p>没用guava之前是需要声明并且加各种包裹集合才能实现这个功能。</p>
+</blockquote>
+<p>当我们需要一个map中包含key为String value为List类型的时候 以前我们是这样写的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Map&lt;String,List&lt;Integer&gt;&gt; map = new HashMap&lt;String,List&lt;Integer&gt;&gt;();</div><div class="line">List&lt;Integer&gt; list = new ArrayList&lt;Integer&gt;();</div><div class="line">list.add(1);</div><div class="line">list.add(2);</div><div class="line">map.put(&quot;aa&quot;, list);</div><div class="line">System.out.println(map.get(&quot;aa&quot;));//[1, 2]</div></pre></td></tr></table></figure>
+<p>而现在<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Multimap&lt;String,Integer&gt; map = ArrayListMultimap.create();		</div><div class="line">map.put(&quot;aa&quot;, 1);</div><div class="line">map.put(&quot;aa&quot;, 2);</div><div class="line">System.out.println(map.get(&quot;aa&quot;));  //[1, 2]</div></pre></td></tr></table></figure></p>
+<h5 id="其他的黑科技集合"><a href="#其他的黑科技集合" class="headerlink" title="其他的黑科技集合"></a>其他的黑科技集合</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">MultiSet: 无序+可重复   count()方法获取单词的次数  增强了可读性+操作简单</div><div class="line">创建方式:  Multiset&lt;String&gt; set = HashMultiset.create();</div><div class="line"></div><div class="line">Multimap: key-value  key可以重复  </div><div class="line">创建方式: Multimap&lt;String, String&gt; teachers = ArrayListMultimap.create();</div><div class="line"></div><div class="line">BiMap: 双向Map(Bidirectional Map) 键与值都不能重复</div><div class="line">创建方式:  BiMap&lt;String, String&gt; biMap = HashBiMap.create();</div><div class="line"></div><div class="line">Table: 双键的Map Map--&gt; Table--&gt;rowKey+columnKey+value  //和sql中的联合主键有点像</div><div class="line">创建方式: Table&lt;String, String, Integer&gt; tables = HashBasedTable.create();</div><div class="line"></div><div class="line">...等等(guava中还有很多java里面没有给出的集合类型)</div></pre></td></tr></table></figure>
+<h4 id="2-将集合转换为特定规则的字符串"><a href="#2-将集合转换为特定规则的字符串" class="headerlink" title="2.将集合转换为特定规则的字符串"></a>2.将集合转换为特定规则的字符串</h4><p>以前我们将list转换为特定规则的字符串是这样写的:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">//use java</div><div class="line">List&lt;String&gt; list = new ArrayList&lt;String&gt;();</div><div class="line">list.add(&quot;aa&quot;);</div><div class="line">list.add(&quot;bb&quot;);</div><div class="line">list.add(&quot;cc&quot;);</div><div class="line">String str = &quot;&quot;;</div><div class="line">for(int i=0; i&lt;list.size(); i++)&#123;</div><div class="line">	str = str + &quot;-&quot; +list.get(i);</div><div class="line">&#125;</div><div class="line">//str 为-aa-bb-cc</div><div class="line"></div><div class="line">//use guava</div><div class="line">List&lt;String&gt; list = new ArrayList&lt;String&gt;();</div><div class="line">list.add(&quot;aa&quot;);</div><div class="line">list.add(&quot;bb&quot;);</div><div class="line">list.add(&quot;cc&quot;);</div><div class="line">String result = Joiner.on(&quot;-&quot;).join(list);</div><div class="line">//result为  aa-bb-cc</div></pre></td></tr></table></figure>
+<h5 id="把map集合转换为特定规则的字符串"><a href="#把map集合转换为特定规则的字符串" class="headerlink" title="把map集合转换为特定规则的字符串"></a>把map集合转换为特定规则的字符串</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Map&lt;String, Integer&gt; map = Maps.newHashMap();</div><div class="line">map.put(&quot;xiaoming&quot;, 12);</div><div class="line">map.put(&quot;xiaohong&quot;,13);</div><div class="line">String result = Joiner.on(&quot;,&quot;).withKeyValueSeparator(&quot;=&quot;).join(map);</div><div class="line">// result为 xiaoming=12,xiaohong=13</div></pre></td></tr></table></figure>
+<h4 id="3-将String转换为特定的集合"><a href="#3-将String转换为特定的集合" class="headerlink" title="3.将String转换为特定的集合"></a>3.将String转换为特定的集合</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">//use java</div><div class="line">List&lt;String&gt; list = new ArrayList&lt;String&gt;();</div><div class="line">String a = &quot;1-2-3-4-5-6&quot;;</div><div class="line">String[] strs = a.split(&quot;-&quot;);</div><div class="line">for(int i=0; i&lt;strs.length; i++)&#123;</div><div class="line">	list.add(strs[i]);</div><div class="line">&#125;</div><div class="line"></div><div class="line">//use guava</div><div class="line">String str = &quot;1-2-3-4-5-6&quot;;</div><div class="line">List&lt;String&gt; list = Splitter.on(&quot;-&quot;).splitToList(str);</div><div class="line">//list为  [1, 2, 3, 4, 5, 6]</div></pre></td></tr></table></figure>
+<p>如果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">str=&quot;1-2-3-4- 5-  6  &quot;;</div></pre></td></tr></table></figure></p>
+<p>guava还可以使用</p>
+<blockquote>
+<p>==使用 “-“ 切分字符串并去除空串与空格==  omitEmptyStrings().trimResults() 去除空串与空格<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">String str = &quot;1-2-3-4-  5-  6   &quot;;  </div><div class="line">List&lt;String&gt; list = Splitter.on(&quot;-&quot;).omitEmptyStrings().trimResults().splitToList(str);</div><div class="line">System.out.println(list);</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>就能忽略中间的空格</p>
+<h6 id="将String转换为map"><a href="#将String转换为map" class="headerlink" title="将String转换为map"></a>将String转换为map</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">String str = &quot;xiaoming=11,xiaohong=23&quot;;</div><div class="line">Map&lt;String,String&gt; map = Splitter.on(&quot;,&quot;).withKeyValueSeparator(&quot;=&quot;).split(str);</div></pre></td></tr></table></figure>
+<h4 id="4-guava还支持多个字符切割，或者特定的正则分隔"><a href="#4-guava还支持多个字符切割，或者特定的正则分隔" class="headerlink" title="4.guava还支持多个字符切割，或者特定的正则分隔"></a>4.guava还支持多个字符切割，或者特定的正则分隔</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">String input = &quot;aa.dd,,ff,,.&quot;;</div><div class="line">List&lt;String&gt; result = Splitter.onPattern(&quot;[.|,]&quot;).omitEmptyStrings().splitToList(input);</div></pre></td></tr></table></figure>
+<p>==关于字符串的操作 都是在Splitter这个类上进行的。==</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 判断匹配结果</div><div class="line">boolean result = CharMatcher.inRange(&apos;a&apos;, &apos;z&apos;).or(CharMatcher.inRange(&apos;A&apos;, &apos;Z&apos;)).matches(&apos;K&apos;); //true</div><div class="line">// 保留数字文本</div><div class="line">String s1 = CharMatcher.digit().retainFrom(&quot;abc 123 efg&quot;); //123</div><div class="line">// 删除数字文本</div><div class="line">String s2 = CharMatcher.digit().removeFrom(&quot;abc 123 efg&quot;);    //abc  efg</div></pre></td></tr></table></figure>
+<h4 id="5-集合的过滤"><a href="#5-集合的过滤" class="headerlink" title="5. 集合的过滤"></a>5. 集合的过滤</h4><p>我们对于集合的过滤，思路就是迭代，然后再具体对每一个数判断，这样的代码放在程序中，难免会显得很臃肿，虽然功能都有，但是很不好看。</p>
+<p>guava写法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">//按照条件过滤</div><div class="line">ImmutableList&lt;String&gt; names = ImmutableList.of(&quot;begin&quot;, &quot;code&quot;, &quot;Guava&quot;, &quot;Java&quot;);</div><div class="line">Iterable&lt;String&gt; fitered = Iterables.filter(names, Predicates.or(Predicates.equalTo(&quot;Guava&quot;), Predicates.equalTo(&quot;Java&quot;)));</div><div class="line">System.out.println(fitered); // [Guava, Java]</div><div class="line"></div><div class="line">//自定义过滤条件   使用自定义回调方法对Map的每个Value进行操作</div><div class="line">ImmutableMap&lt;String, Integer&gt; m = ImmutableMap.of(&quot;begin&quot;, 12, &quot;code&quot;, 15);</div><div class="line">        // Function&lt;F, T&gt; F表示apply()方法input的类型，T表示apply()方法返回类型</div><div class="line">        Map&lt;String, Integer&gt; m2 = Maps.transformValues(m, new Function&lt;Integer, Integer&gt;() &#123;</div><div class="line">            public Integer apply(Integer input) &#123;</div><div class="line">            	if(input&gt;12)&#123;</div><div class="line">            		return input;</div><div class="line">            	&#125;else&#123;</div><div class="line">            		return input+1;</div><div class="line">            	&#125;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">System.out.println(m2);   //&#123;begin=13, code=15&#125;</div></pre></td></tr></table></figure>
+<p>set的交集, 并集, 差集</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">HashSet setA = newHashSet(1, 2, 3, 4, 5);  </div><div class="line">HashSet setB = newHashSet(4, 5, 6, 7, 8);  </div><div class="line">   </div><div class="line">SetView union = Sets.union(setA, setB);  </div><div class="line">System.out.println(&quot;union:&quot;);  </div><div class="line">for (Integer integer : union)  </div><div class="line">    System.out.println(integer);           //union:12345867</div><div class="line">   </div><div class="line">SetView difference = Sets.difference(setA, setB);  </div><div class="line">System.out.println(&quot;difference:&quot;);  </div><div class="line">for (Integer integer : difference)  </div><div class="line">    System.out.println(integer);        //difference:123</div><div class="line">   </div><div class="line">SetView intersection = Sets.intersection(setA, setB);  </div><div class="line">System.out.println(&quot;intersection:&quot;);  </div><div class="line">for (Integer integer : intersection)  </div><div class="line">    System.out.println(integer);  //intersection:45</div></pre></td></tr></table></figure>
+<p>map的交集，并集，差集</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">MapDifference differenceMap = Maps.difference(mapA, mapB);  </div><div class="line">differenceMap.areEqual();  </div><div class="line">Map entriesDiffering = differenceMap.entriesDiffering();  </div><div class="line">Map entriesOnlyOnLeft = differenceMap.entriesOnlyOnLeft();  </div><div class="line">Map entriesOnlyOnRight = differenceMap.entriesOnlyOnRight();  </div><div class="line">Map entriesInCommon = differenceMap.entriesInCommon();</div></pre></td></tr></table></figure>
+<h4 id="6-检查参数"><a href="#6-检查参数" class="headerlink" title="6.检查参数"></a>6.检查参数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">//use java</div><div class="line">if(list!=null &amp;&amp; list.size()&gt;0)</div><div class="line">&apos;&apos;&apos;</div><div class="line">if(str!=null &amp;&amp; str.length()&gt;0)</div><div class="line">&apos;&apos;&apos;</div><div class="line">if(str !=null &amp;&amp; !str.isEmpty())</div><div class="line"></div><div class="line">//use guava</div><div class="line">if(!Strings.isNullOrEmpty(str))</div><div class="line"></div><div class="line">//use java</div><div class="line">if (count &lt;= 0) &#123;                                                                                           </div><div class="line">    throw new IllegalArgumentException(&quot;must be positive: &quot; + count);         </div><div class="line">&#125;    </div><div class="line"></div><div class="line">//use guava</div><div class="line">Preconditions.checkArgument(count &gt; 0, &quot;must be positive: %s&quot;, count);</div></pre></td></tr></table></figure>
+<p>免去了很多麻烦！并且会使你的代码看上去更好看。而不是代码里面充斥着!=null， !=””</p>
+<blockquote>
+<p>(问答系统源码里面有很多这种代码，后一版得抓紧改掉。。)</p>
+</blockquote>
+<p>检查是否为空,不仅仅是字符串类型，其他类型的判断 全部都封装在 Preconditions类里 里面的方法全为静态。</p>
+<p>其中的一个方法的源码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@CanIgnoreReturnValue</div><div class="line">public static &lt;T&gt; T checkNotNull(T reference) &#123;</div><div class="line">    if (reference == null) &#123;</div><div class="line">      throw new NullPointerException();</div><div class="line">    &#125;</div><div class="line">    return reference;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>方法声明（不包括额外参数）</th>
+<th>描述</th>
+<th>检查失败时抛出的异常</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>checkArgument(boolean)</td>
+<td>检查boolean是否为true，用来检查传递给方法的参数。</td>
+<td>IllegalArgumentException</td>
+</tr>
+<tr>
+<td>checkNotNull(T)</td>
+<td>检查value是否为null，该方法直接返回value，因此可以内嵌使用checkNotNull。</td>
+<td>NullPointerException</td>
+</tr>
+<tr>
+<td> checkState(boolean)</td>
+<td>用来检查对象的某些状态。</td>
+<td>IllegalStateException</td>
+</tr>
+<tr>
+<td>  checkElementIndex(int index, int size)</td>
+<td>检查index作为索引值对某个列表、字符串或数组是否有效。index&gt;=0 &amp;&amp; index&lt;size *</td>
+<td>IndexOutOfBoundsException</td>
+</tr>
+<tr>
+<td>  checkPositionIndexes(int start, int end, int size)</td>
+<td>检查[start, end]表示的位置范围对某个列表、字符串或数组是否有效*</td>
+<td>IndexOutOfBoundsException</td>
+</tr>
+</tbody>
+</table>
+<h4 id="7-MoreObjects"><a href="#7-MoreObjects" class="headerlink" title="7.MoreObjects"></a>7.MoreObjects</h4><p>这个方法是在Objects过期后 官方推荐使用的替代品，该类最大的好处就是不用大量的重写toString，用一种很优雅的方式实现重写，或者在某个场景定制使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Person person = new Person(&quot;aa&quot;,11);</div><div class="line">String str = MoreObjects.toStringHelper(&quot;Person&quot;).add(&quot;age&quot;, person.getAge()).toString();</div><div class="line">System.out.println(str);  </div><div class="line">//输出Person&#123;age=11&#125;</div></pre></td></tr></table></figure>
+<h4 id="8-强大的Ordering排序器"><a href="#8-强大的Ordering排序器" class="headerlink" title="8.强大的Ordering排序器"></a>8.强大的Ordering排序器</h4><p>排序器[Ordering]是Guava流畅风格比较器[Comparator]的实现，它可以用来为构建复杂的比较器，以完成集合排序的功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">natural()	对可排序类型做自然排序，如数字按大小，日期按先后排序</div><div class="line">usingToString()	按对象的字符串形式做字典排序[lexicographical ordering]</div><div class="line">from(Comparator)	把给定的Comparator转化为排序器</div><div class="line">reverse()	获取语义相反的排序器</div><div class="line">nullsFirst()	使用当前排序器，但额外把null值排到最前面。</div><div class="line">nullsLast()	使用当前排序器，但额外把null值排到最后面。</div><div class="line">compound(Comparator)	合成另一个比较器，以处理当前排序器中的相等情况。</div><div class="line">lexicographical()	基于处理类型T的排序器，返回该类型的可迭代对象Iterable&lt;T&gt;的排序器。</div><div class="line">onResultOf(Function)	对集合中元素调用Function，再按返回值用当前排序器排序。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Person person = new Person(&quot;aa&quot;,14);  //String name  ,Integer age</div><div class="line">Person ps = new Person(&quot;bb&quot;,13);</div><div class="line">Ordering&lt;Person&gt; byOrdering = Ordering.natural().nullsFirst().onResultOf(new Function&lt;Person,String&gt;()&#123;</div><div class="line">	public String apply(Person person)&#123;</div><div class="line">		return person.age.toString();</div><div class="line">	&#125;</div><div class="line">&#125;);</div><div class="line">byOrdering.compare(person, ps);</div><div class="line">System.out.println(byOrdering.compare(person, ps)); //1      person的年龄比ps大 所以输出1</div></pre></td></tr></table></figure>
+<h4 id="9-计算中间代码的运行时间"><a href="#9-计算中间代码的运行时间" class="headerlink" title="9.计算中间代码的运行时间"></a>9.计算中间代码的运行时间</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Stopwatch stopwatch = Stopwatch.createStarted();</div><div class="line">for(int i=0; i&lt;100000; i++)&#123;</div><div class="line">	</div><div class="line">&#125;</div><div class="line">long nanos = stopwatch.elapsed(TimeUnit.MILLISECONDS);</div><div class="line">System.out.println(nanos);</div></pre></td></tr></table></figure>
+<p>TimeUnit 可以指定时间输出精确到多少时间</p>
+<h4 id="10-文件操作"><a href="#10-文件操作" class="headerlink" title="10.文件操作"></a>10.文件操作</h4><p>以前我们写文件读取的时候要定义缓冲区，各种条件判断，各种$%#$@#</p>
+<p>而现在我们只需要使用好guava的api 就能使代码变得简洁，并且不用担心因为写错逻辑而背锅了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">File file = new File(&quot;/test.txt&quot;);</div><div class="line">List&lt;String&gt; list = null;</div><div class="line">try &#123;</div><div class="line">	list = Files.readLines(file, Charsets.UTF_8);</div><div class="line">&#125; catch (Exception e) &#123;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Files.copy(from,to);  //复制文件</div><div class="line">Files.deleteDirectoryContents(File directory); //删除文件夹下的内容(包括文件与子文件夹)  </div><div class="line">Files.deleteRecursively(File file); //删除文件或者文件夹  </div><div class="line">Files.move(File from, File to); //移动文件</div><div class="line">URL url = Resources.getResource(&quot;abc.xml&quot;); //获取classpath根下的abc.xml文件url</div></pre></td></tr></table></figure></p>
+<p>Files类中还有许多方法可以用，可以多多翻阅。</p>
+<h4 id="11-guava缓存"><a href="#11-guava缓存" class="headerlink" title="11.guava缓存"></a>11.guava缓存</h4><p>guava的缓存设计的比较巧妙，可以很精巧的使用。guava缓存创建分为两种，一种是CacheLoader,另一种则是callback方式</p>
+<p>CacheLoader:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">LoadingCache&lt;String,String&gt; cahceBuilder=CacheBuilder</div><div class="line">		        .newBuilder()</div><div class="line">		        .build(new CacheLoader&lt;String, String&gt;()&#123;</div><div class="line">		            @Override</div><div class="line">		            public String load(String key) throws Exception &#123;        </div><div class="line">		                String strProValue=&quot;hello &quot;+key+&quot;!&quot;;                </div><div class="line">		                return strProValue;</div><div class="line">		            &#125;</div><div class="line">		        &#125;);        </div><div class="line">System.out.println(cahceBuilder.apply(&quot;begincode&quot;));  //hello begincode!</div><div class="line">System.out.println(cahceBuilder.get(&quot;begincode&quot;)); //hello begincode!</div><div class="line">System.out.println(cahceBuilder.get(&quot;wen&quot;)); //hello wen!</div><div class="line">System.out.println(cahceBuilder.apply(&quot;wen&quot;)); //hello wen!</div><div class="line">System.out.println(cahceBuilder.apply(&quot;da&quot;));//hello da!</div><div class="line">cahceBuilder.put(&quot;begin&quot;, &quot;code&quot;);</div><div class="line">System.out.println(cahceBuilder.get(&quot;begin&quot;)); //code</div></pre></td></tr></table></figure>
+<h5 id="api中已经把apply声明为过期，声明中推荐使用get方法获取值"><a href="#api中已经把apply声明为过期，声明中推荐使用get方法获取值" class="headerlink" title="api中已经把apply声明为过期，声明中推荐使用get方法获取值"></a>api中已经把apply声明为过期，声明中推荐使用get方法获取值</h5><p>callback方式:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Cache&lt;String, String&gt; cache = CacheBuilder.newBuilder().maximumSize(1000).build();  </div><div class="line">        String resultVal = cache.get(&quot;code&quot;, new Callable&lt;String&gt;() &#123;  </div><div class="line">            public String call() &#123;  </div><div class="line">                String strProValue=&quot;begin &quot;+&quot;code&quot;+&quot;!&quot;;                </div><div class="line">                return strProValue;</div><div class="line">            &#125;  </div><div class="line">        &#125;);  </div><div class="line">System.out.println(&quot;value : &quot; + resultVal); //value : begin code!</div></pre></td></tr></table></figure>
+<hr>
+<p>以上只是guava使用的一小部分，guava是个大的工具类，第一版guava是2010年发布的，每一版的更新和迭代都是一种创新。</p>
+<p>jdk的升级很多都是借鉴guava里面的思想来进行的。</p>
+<p>以上可能会有错误或者表意不全的地方，欢迎评论指出。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+            <a href="/tags/Google-guava/" rel="tag">#Google guava</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/12/ArrayList 源码解析 及其扩展/" rel="next" title="ArrayList 源码解析 及其扩展">
+                <i class="fa fa-chevron-left"></i> ArrayList 源码解析 及其扩展
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/08/Google guava工具类的介绍和使用/"
+           data-title="Google guava工具类的介绍和使用" data-url="http://thenmoret.com/2016/12/08/Google guava工具类的介绍和使用/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/20160824113244.png"
+               alt="StayY" />
+          <p class="site-author-name" itemprop="name">StayY</p>
+          <p class="site-description motion-element" itemprop="description">java,专注网页后端技术。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-集合的创建"><span class="nav-number">2.0.1.</span> <span class="nav-text">1.集合的创建</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#其他的黑科技集合"><span class="nav-number">2.0.1.1.</span> <span class="nav-text">其他的黑科技集合</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-将集合转换为特定规则的字符串"><span class="nav-number">2.0.2.</span> <span class="nav-text">2.将集合转换为特定规则的字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#把map集合转换为特定规则的字符串"><span class="nav-number">2.0.2.1.</span> <span class="nav-text">把map集合转换为特定规则的字符串</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-将String转换为特定的集合"><span class="nav-number">2.0.3.</span> <span class="nav-text">3.将String转换为特定的集合</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#将String转换为map"><span class="nav-number">2.0.3.0.1.</span> <span class="nav-text">将String转换为map</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-guava还支持多个字符切割，或者特定的正则分隔"><span class="nav-number">2.0.4.</span> <span class="nav-text">4.guava还支持多个字符切割，或者特定的正则分隔</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-集合的过滤"><span class="nav-number">2.0.5.</span> <span class="nav-text">5. 集合的过滤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-检查参数"><span class="nav-number">2.0.6.</span> <span class="nav-text">6.检查参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-MoreObjects"><span class="nav-number">2.0.7.</span> <span class="nav-text">7.MoreObjects</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-强大的Ordering排序器"><span class="nav-number">2.0.8.</span> <span class="nav-text">8.强大的Ordering排序器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-计算中间代码的运行时间"><span class="nav-number">2.0.9.</span> <span class="nav-text">9.计算中间代码的运行时间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-文件操作"><span class="nav-number">2.0.10.</span> <span class="nav-text">10.文件操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-guava缓存"><span class="nav-number">2.0.11.</span> <span class="nav-text">11.guava缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#api中已经把apply声明为过期，声明中推荐使用get方法获取值"><span class="nav-number">2.0.11.1.</span> <span class="nav-text">api中已经把apply声明为过期，声明中推荐使用get方法获取值</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">StayY</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"stayy"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("XothEmCb5LfqH4FmJOfF78Eo-gzGzoHsz", "JCi9gKLYV6Jd9fSlQ0jOMMv3");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
